@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <style>
+            h1 {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="title">Hello!</h1>
+        <script>
+            var cards = new Array(52);
+            create_deck();
+            console.log(cards);
+            
+            function Card(suit, value){
+                this.suit = suit;
+                this.value = value;
+            }
+            
+            function create_deck(){
+                var deck_cursor = 0;
+                var suit_count = 1;
+                var value = "";
+                
+                for(; suit_count <= 4; suit_count++){
+                    switch(suit_count) {
+                        case 1:
+                            // hearts
+                            generate_suit("Hearts");
+                            break;
+                        case 2: 
+                            // diamonds
+                            generate_suit("Diamonds");
+                            break;
+                        case 3: 
+                            // clubs
+                            generate_suit("Clubs");
+                            break;
+                        case 4:
+                            // spades
+                            generate_suit("Spades");
+                            break;
+                    }
+                }
+                
+                function generate_suit(suit){
+                    var face_counter = 14;
+                    for(;face_counter >= 2; face_counter--){
+                        switch(face_counter) {
+                            case 14:
+                                // ace
+                                value = "Ace";
+                                cards[deck_cursor] = new Card(suit, value);
+                                deck_cursor++;
+                                break;
+                            case 13:
+                                // king
+                                value = "King";
+                                cards[deck_cursor] = new Card(suit, value);
+                                deck_cursor++;
+                                break;
+                            case 12:
+                                // queen
+                                value = "Queen";
+                                cards[deck_cursor] = new Card(suit, value);
+                                deck_cursor++;
+                                break;
+                            case 11:
+                                // jack
+                                value = "Jack";
+                                cards[deck_cursor] = new Card(suit, value);
+                                deck_cursor++;
+                                break;
+                            default:
+                                for(; face_counter >=2; face_counter--){
+                                    cards[deck_cursor] = new Card(suit, face_counter);
+                                    deck_cursor++;
+                                }     
+                        }
+                    }
+                    
+                }
+            }
+            var ace_of_spades = new Card("Spades", "Ace");
+            console.log("Card is " + ace_of_spades.value + " of " + ace_of_spades.suit + ".");
+        </script>
+    </body>
+</html>
