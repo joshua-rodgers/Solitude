@@ -92,6 +92,7 @@
             // test dd.col1.childNodes[1].innerText = "♣︎ J";
             
             // test console.log(tableau);
+            dd.refresh();
             // test console.log(dd.col1);
             
             function create_tableau(){
@@ -130,7 +131,30 @@
                 }
                 
                 this.refresh = function(){
+                    var i = 0;
+                    var j = 0;
+                    var display_col;
                     
+                    for(var data_col of tableau){
+                        display_col = tableau_display[i];
+                        
+                        for(var data_card of data_col){
+                            if(data_card != undefined){
+                                if(data_card.is_face_up){
+                                    display_col.childNodes[j].innerText = data_card.suit + " " + data_card.value;
+                                    display_col.childNodes[j].style.color = data_card.suit_color;
+                                }else {
+                                    display_col.childNodes[j].innerText = "*";
+                                }
+                                
+                            }
+                            
+                            // test console.log(data_card.value);
+                            j++;
+                        }
+                        j = 0;
+                        i++;
+                    }
                 }
             }
             /*----------------------------------------------
@@ -230,10 +254,11 @@
             }
             
             
-            function Card(suit, value){
+            function Card(suit, value, suit_color){
                 this.suit = suit;
                 this.value = value;
                 this.is_face_up = false;
+                this.suit_color = suit_color;
             }
             
             function create_deck(){
@@ -241,24 +266,24 @@
                 var deck_cursor = 0;
                 var suit_count = 1;
                 var value = "";
-                
+                // ♣︎♥︎♦︎♠︎♤♧♡♢
                 for(; suit_count <= 4; suit_count++){
                     switch(suit_count) {
                         case 1:
                             // hearts
-                            generate_suit("Hearts");
+                            generate_suit("♥︎", "red");
                             break;
                         case 2: 
                             // diamonds
-                            generate_suit("Diamonds");
+                            generate_suit("♦︎", "red");
                             break;
                         case 3: 
                             // clubs
-                            generate_suit("Clubs");
+                            generate_suit("♣︎", "black");
                             break;
                         case 4:
                             // spades
-                            generate_suit("Spades");
+                            generate_suit("♠︎", "black");
                             break;
                     }
                 }
@@ -266,32 +291,32 @@
                 return shuffle_deck(deck);
                 
                 
-                function generate_suit(suit){
+                function generate_suit(suit, color){
                     var face_counter = 14;
                     for(;face_counter >= 2; face_counter--){
                         switch(face_counter) {
                             case 14:
                                 // ace
-                                value = "Ace";
-                                deck[deck_cursor] = new Card(suit, value);
+                                value = "A";
+                                deck[deck_cursor] = new Card(suit, value, color);
                                 deck_cursor++;
                                 break;
                             case 13:
                                 // king
-                                value = "King";
-                                deck[deck_cursor] = new Card(suit, value);
+                                value = "K";
+                                deck[deck_cursor] = new Card(suit, value, color);
                                 deck_cursor++;
                                 break;
                             case 12:
                                 // queen
-                                value = "Queen";
-                                deck[deck_cursor] = new Card(suit, value);
+                                value = "Q";
+                                deck[deck_cursor] = new Card(suit, value, color);
                                 deck_cursor++;
                                 break;
                             case 11:
                                 // jack
-                                value = "Jack";
-                                deck[deck_cursor] = new Card(suit, value);
+                                value = "J";
+                                deck[deck_cursor] = new Card(suit, value, color);
                                 deck_cursor++;
                                 break;
                             default:
