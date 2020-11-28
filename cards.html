@@ -1,24 +1,243 @@
 <html>
     <head>
         <style>
-            h1 {
-                color: red;
+            .container {
+                border: 1px solid black;
+                padding: 20px;
+                
+            }
+            
+            #playarea {
+                width: 80%;
+                margin: 0 auto;
+                text-align: center;
+                background-color: green;
+            }
+            
+            #pile {
+                width: 80px;
+                background-color: darkgreen;
+            }
+            
+            #table-box {
+                display: grid;
+                grid-template-columns: repeat(7, 13.4%);
+                grid-column-gap: 1%;
+                margin-top: 10%;
             }
         </style>
     </head>
     <body>
-        <h1 id="title">Hello!</h1>
+        <!--♣︎♥︎♦︎♠︎♤♧♡♢-->
+        <div class="container" id="playarea">
+            <h1 class="label">Play Area</h1>
+            <div class="container" id="pile">
+                <h1 class="label">Pile</h1>
+            </div>
+            <div class="container" id="table-box">
+                <!--
+                <div class="tableau-col container">
+                    <p>♦︎ A</p>
+                </div>
+                <div class="tableau-col container">
+                    <p>*</p>
+                    <p>♥︎ 7</p>
+                </div>
+                <div class="tableau-col container">
+                    <p>*</p>
+                    <p>*</p>
+                    <p>♦︎ 10</p>
+                </div>
+                <div class="tableau-col container">
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>♥︎ Q</p>
+                </div>
+                <div class="tableau-col container">
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>♦︎ 5</p>
+                </div>
+                <div class="tableau-col container">
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>♣︎ 2</p>
+                </div>
+                <div class="tableau-col container">
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>*</p>
+                    <p>♣︎ J</p>
+                </div>
+                -->
+            </div>
+        </div>
         <script>
-            var cards = new Array(52);
-            create_deck();
-            console.log(cards);
+            var cards = create_deck();
+            // test console.log(cards);
+            var tableau = create_tableau();
+            deal_cards();
+            var dd = new Data_Display();
+            // dd.refresh();
+            // test dd.col1.childNodes[0].innerText = "*";
+            // test dd.col1.childNodes[1].innerText = "♣︎ J";
+            
+            // test console.log(tableau);
+            // test console.log(dd.col1);
+            
+            function create_tableau(){
+                var table = new Array(7);
+                for(var i = 0; i < table.length; i++){
+                    table[i] = new Array(19);
+                }
+                
+                return table;
+            }
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+                DISPLAY CLASS - handle display concerns here
+            ************************************************
+            ************************************************
+            */
+            function Data_Display() {
+                var model_col = document.createElement("div");
+                model_col.className = "tableau-col container";
+
+                var tableau_display = Array(7);
+                
+                for(var col of tableau_display.keys()){
+                    tableau_display[col] = model_col.cloneNode();
+                }
+                
+                var new_space = document.createElement("p");
+                new_space.className = "space";
+                
+                for(var col of tableau_display){
+                    for(var j = 0; j < 19; j++){
+                        col.appendChild(new_space.cloneNode());
+                    }
+                    document.body.childNodes[3].childNodes[5].appendChild(col);
+                }
+                
+                this.refresh = function(){
+                    
+                }
+            }
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+            END DISPLAY CLASS
+            ************************************************
+            ************************************************
+            */
+            
+            function deal_cards(){
+                var column = 0;
+                var card_cursor = 51;
+                var local_i = 0;
+                
+                for(; column < 7; column++){
+                    switch(column){
+                        case 0:
+                            local_i = 0
+                            while(local_i == 0){
+                                tableau[column][local_i] = cards[card_cursor];
+                                if(local_i == 0){
+                                    tableau[column][local_i].is_face_up = true;
+                                }
+                                card_cursor--;
+                                local_i++;
+                            }
+                            break;
+                        case 1:
+                            local_i = 0
+                            while(local_i < 2){
+                                tableau[column][local_i] = cards[card_cursor];
+                                if(local_i == 1){
+                                    tableau[column][local_i].is_face_up = true;
+                                }
+                                card_cursor--;
+                                local_i++;
+                            }
+                            break;
+                        case 2:
+                            local_i = 0
+                            while(local_i < 3){
+                                tableau[column][local_i] = cards[card_cursor];
+                                if(local_i == 2){
+                                    tableau[column][local_i].is_face_up = true;
+                                }
+                                card_cursor--;
+                                local_i++;
+                            }
+                            break;
+                        case 3:
+                            local_i = 0
+                            while(local_i < 4){
+                                tableau[column][local_i] = cards[card_cursor];
+                                if(local_i == 3){
+                                    tableau[column][local_i].is_face_up = true;
+                                }
+                                card_cursor--;
+                                local_i++;
+                            }
+                            break;
+                        case 4:
+                            local_i = 0
+                            while(local_i < 5){
+                                tableau[column][local_i] = cards[card_cursor];
+                                if(local_i == 4){
+                                    tableau[column][local_i].is_face_up = true;
+                                }
+                                card_cursor--;
+                                local_i++;
+                            }
+                            break;
+                        case 5:
+                            local_i = 0
+                            while(local_i < 6){
+                                tableau[column][local_i] = cards[card_cursor];
+                                if(local_i == 5){
+                                    tableau[column][local_i].is_face_up = true;
+                                }
+                                card_cursor--;
+                                local_i++;
+                            }
+                            break;
+                        case 6:
+                            local_i = 0
+                            while(local_i < 7){
+                                tableau[column][local_i] = cards[card_cursor];
+                                if(local_i == 6){
+                                    tableau[column][local_i].is_face_up = true;
+                                }
+                                card_cursor--;
+                                local_i++;
+                            }
+                            break;
+                    }
+                }
+            }
+            
             
             function Card(suit, value){
                 this.suit = suit;
                 this.value = value;
+                this.is_face_up = false;
             }
             
             function create_deck(){
+                var deck = new Array(52)
                 var deck_cursor = 0;
                 var suit_count = 1;
                 var value = "";
@@ -44,6 +263,9 @@
                     }
                 }
                 
+                return shuffle_deck(deck);
+                
+                
                 function generate_suit(suit){
                     var face_counter = 14;
                     for(;face_counter >= 2; face_counter--){
@@ -51,30 +273,30 @@
                             case 14:
                                 // ace
                                 value = "Ace";
-                                cards[deck_cursor] = new Card(suit, value);
+                                deck[deck_cursor] = new Card(suit, value);
                                 deck_cursor++;
                                 break;
                             case 13:
                                 // king
                                 value = "King";
-                                cards[deck_cursor] = new Card(suit, value);
+                                deck[deck_cursor] = new Card(suit, value);
                                 deck_cursor++;
                                 break;
                             case 12:
                                 // queen
                                 value = "Queen";
-                                cards[deck_cursor] = new Card(suit, value);
+                                deck[deck_cursor] = new Card(suit, value);
                                 deck_cursor++;
                                 break;
                             case 11:
                                 // jack
                                 value = "Jack";
-                                cards[deck_cursor] = new Card(suit, value);
+                                deck[deck_cursor] = new Card(suit, value);
                                 deck_cursor++;
                                 break;
                             default:
                                 for(; face_counter >=2; face_counter--){
-                                    cards[deck_cursor] = new Card(suit, face_counter);
+                                    deck[deck_cursor] = new Card(suit, face_counter);
                                     deck_cursor++;
                                 }     
                         }
@@ -82,8 +304,61 @@
                     
                 }
             }
-            var ace_of_spades = new Card("Spades", "Ace");
-            console.log("Card is " + ace_of_spades.value + " of " + ace_of_spades.suit + ".");
+            
+            function shuffle_deck(deck){
+                // refactor to keep track of open indices
+                // using only open spaces.
+                
+                var temp_arr = new Array(52);
+                var slot = 0;
+                // test var counter = 0;
+                
+                for(var i = 0; i < 52; i++){
+                    slot = generate_random();
+                    temp_arr[check_slot()] = deck[i];
+                }
+                
+                // test console.log(temp_arr);
+                // test console.log(counter);
+                return temp_arr;
+                
+                function generate_random(){
+                    return Math.floor(Math.random() * 52);
+                }
+                
+                function check_slot(){
+                    var control = true;
+                    var round_trip = false;
+                    var origin = slot;
+                    
+                    if(temp_arr[slot] == null){
+                        return slot;
+                    }else{
+                        while(control){
+                            if(slot < 51 && !round_trip){
+                                slot++;
+                                if(temp_arr[slot] == null){
+                                    control = false;
+                                }
+                            }else{
+                                if(!round_trip){
+                                    slot = origin;
+                                    round_trip = true;
+                                }
+                                
+                                slot--;
+                                if(temp_arr[slot] == null){
+                                    control = false;
+                                }
+                                // test counter++;
+                            }
+                        }
+                        return slot;
+                    }
+                }
+            }
+            
+            
         </script>
     </body>
 </html>
