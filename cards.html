@@ -7,6 +7,13 @@
                 
             }
             
+            .foundation {
+                display: inline-block;
+                width: 7%;
+                font-size: .5em;
+                background-color: darkgreen;
+            }
+            
             #playarea {
                 width: 80%;
                 margin: 0 auto;
@@ -15,8 +22,17 @@
             }
             
             #pile {
+                display: inline-block;
                 width: 80px;
                 background-color: darkgreen;
+                font-size: .5em;
+            }
+            
+            #pile-top {
+                display: inline-block;
+                width: 5%;
+                margin-right: 30px;
+                font-size: .5em;
             }
             
             #table-box {
@@ -34,75 +50,76 @@
             <div class="container" id="pile">
                 <h1 class="label">Pile</h1>
             </div>
+            <div class="container" id="pile-top">
+                <h1 class="label">Avail.</h1>
+            </div>
+            <div class="container foundation" id="foundation-1">
+                <h1 class="label">Found</h1>
+            </div>
+            <div class="container foundation" id="foundation-2">
+                <h1 class="label">Found</h1>
+            </div>
+            <div class="container foundation" id="foundation-3">
+                <h1 class="label">Found</h1>
+            </div>
+            <div class="container foundation" id="foundation-4">
+                <h1 class="label">Found</h1>
+            </div>
             <div class="container" id="table-box">
-                <!--
-                <div class="tableau-col container">
-                    <p>♦︎ A</p>
-                </div>
-                <div class="tableau-col container">
-                    <p>*</p>
-                    <p>♥︎ 7</p>
-                </div>
-                <div class="tableau-col container">
-                    <p>*</p>
-                    <p>*</p>
-                    <p>♦︎ 10</p>
-                </div>
-                <div class="tableau-col container">
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>♥︎ Q</p>
-                </div>
-                <div class="tableau-col container">
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>♦︎ 5</p>
-                </div>
-                <div class="tableau-col container">
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>♣︎ 2</p>
-                </div>
-                <div class="tableau-col container">
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>*</p>
-                    <p>♣︎ J</p>
-                </div>
-                -->
+                
             </div>
         </div>
         <script>
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+            GLOBALS
+            ************************************************
+            ************************************************
+            */
             var cards = create_deck();
-            // test console.log(cards);
             var tableau = create_tableau();
-            deal_cards();
+            var stock_pile = deal_cards();
+            var stock_pile_avail;
+            var data_f1 = new Array(13);
+            var data_f2 = new Array(13);
+            var data_f3 = new Array(13);
+            var data_f4 = new Array(13);
             var dd = new Data_Display();
-            // dd.refresh();
-            // test dd.col1.childNodes[0].innerText = "*";
-            // test dd.col1.childNodes[1].innerText = "♣︎ J";
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+            END GLOBALS
+            ************************************************
+            ************************************************
+            */
             
-            // test console.log(tableau);
+            //==================================================================
+            // INIT DISPLAY
             dd.refresh();
-            // test console.log(dd.col1);
+            //==================================================================
             
-            function create_tableau(){
-                var table = new Array(7);
-                for(var i = 0; i < table.length; i++){
-                    table[i] = new Array(19);
-                }
-                
-                return table;
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+                CARD CLASS - card object defined here
+            ************************************************
+            ************************************************
+            */
+            function Card(suit, value, suit_color){
+                this.suit = suit;
+                this.value = value;
+                this.is_face_up = false;
+                this.suit_color = suit_color;
             }
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+            END CARD CLASS
+            ************************************************
+            ************************************************
+            */
+            //==================================================================
             /*----------------------------------------------
             ************************************************
             ************************************************
@@ -113,7 +130,14 @@
             function Data_Display() {
                 var model_col = document.createElement("div");
                 model_col.className = "tableau-col container";
-
+                
+                var table_box = document.getElementById("table-box");
+                var pile_top = document.getElementById("pile-top");
+                var f1 = document.getElementById("foundation-1");
+                var f2 = document.getElementById("foundation-2");
+                var f3 = document.getElementById("foundation-3");
+                var f4 = document.getElementById("foundation-4");
+                
                 var tableau_display = Array(7);
                 
                 for(var col of tableau_display.keys()){
@@ -127,7 +151,7 @@
                     for(var j = 0; j < 19; j++){
                         col.appendChild(new_space.cloneNode());
                     }
-                    document.body.childNodes[3].childNodes[5].appendChild(col);
+                    table_box.appendChild(col)
                 }
                 
                 this.refresh = function(){
@@ -164,103 +188,40 @@
             ************************************************
             ************************************************
             */
-            
+            //==================================================================
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+            UTILITY FUNCTIONS - these initialize game
+            ************************************************
+            ************************************************
+            */
+            //==================================================================
             function deal_cards(){
                 var column = 0;
                 var card_cursor = 51;
                 var local_i = 0;
+                var pile = new Array(24);
                 
                 for(; column < 7; column++){
-                    switch(column){
-                        case 0:
-                            local_i = 0
-                            while(local_i == 0){
-                                tableau[column][local_i] = cards[card_cursor];
-                                if(local_i == 0){
-                                    tableau[column][local_i].is_face_up = true;
-                                }
-                                card_cursor--;
-                                local_i++;
-                            }
-                            break;
-                        case 1:
-                            local_i = 0
-                            while(local_i < 2){
-                                tableau[column][local_i] = cards[card_cursor];
-                                if(local_i == 1){
-                                    tableau[column][local_i].is_face_up = true;
-                                }
-                                card_cursor--;
-                                local_i++;
-                            }
-                            break;
-                        case 2:
-                            local_i = 0
-                            while(local_i < 3){
-                                tableau[column][local_i] = cards[card_cursor];
-                                if(local_i == 2){
-                                    tableau[column][local_i].is_face_up = true;
-                                }
-                                card_cursor--;
-                                local_i++;
-                            }
-                            break;
-                        case 3:
-                            local_i = 0
-                            while(local_i < 4){
-                                tableau[column][local_i] = cards[card_cursor];
-                                if(local_i == 3){
-                                    tableau[column][local_i].is_face_up = true;
-                                }
-                                card_cursor--;
-                                local_i++;
-                            }
-                            break;
-                        case 4:
-                            local_i = 0
-                            while(local_i < 5){
-                                tableau[column][local_i] = cards[card_cursor];
-                                if(local_i == 4){
-                                    tableau[column][local_i].is_face_up = true;
-                                }
-                                card_cursor--;
-                                local_i++;
-                            }
-                            break;
-                        case 5:
-                            local_i = 0
-                            while(local_i < 6){
-                                tableau[column][local_i] = cards[card_cursor];
-                                if(local_i == 5){
-                                    tableau[column][local_i].is_face_up = true;
-                                }
-                                card_cursor--;
-                                local_i++;
-                            }
-                            break;
-                        case 6:
-                            local_i = 0
-                            while(local_i < 7){
-                                tableau[column][local_i] = cards[card_cursor];
-                                if(local_i == 6){
-                                    tableau[column][local_i].is_face_up = true;
-                                }
-                                card_cursor--;
-                                local_i++;
-                            }
-                            break;
+                    local_i = 0
+                    while(local_i <= column){
+                        tableau[column][local_i] = cards[card_cursor];
+                        cards[card_cursor] = null;
+                        if(local_i == column){
+                            tableau[column][local_i].is_face_up = true;
+                        }
+                        card_cursor--;
+                        local_i++;
                     }
                 }
+                for(; card_cursor >= 0; card_cursor-- ){
+                    pile[card_cursor] = cards[card_cursor];
+                }
+                cards = [];
+                return pile;
             }
-            
-            
-            function Card(suit, value, suit_color){
-                this.suit = suit;
-                this.value = value;
-                this.is_face_up = false;
-                this.suit_color = suit_color;
-            }
-            
+            //==================================================================
             function create_deck(){
                 var deck = new Array(52)
                 var deck_cursor = 0;
@@ -290,7 +251,7 @@
                 
                 return shuffle_deck(deck);
                 
-                
+                //------------INNER FUNCTION OF CREATE_DECK----------------------
                 function generate_suit(suit, color){
                     var face_counter = 14;
                     for(;face_counter >= 2; face_counter--){
@@ -321,15 +282,15 @@
                                 break;
                             default:
                                 for(; face_counter >=2; face_counter--){
-                                    deck[deck_cursor] = new Card(suit, face_counter);
+                                    deck[deck_cursor] = new Card(suit, face_counter, color);
                                     deck_cursor++;
                                 }     
                         }
                     }
                     
-                }
+                } //--------------END GENERATE_SUIT----------------
             }
-            
+            //==================================================================
             function shuffle_deck(deck){
                 // refactor to keep track of open indices
                 // using only open spaces.
@@ -382,7 +343,22 @@
                     }
                 }
             }
-            
+            //==================================================================
+            /*----------------------------------------------
+            ************************************************
+            ************************************************
+            END UTILITY FUNCTIONS 
+            ************************************************
+            ************************************************
+            */
+            //==================================================================
+            function create_tableau(){
+                var table = new Array(7);
+                for(var i = 0; i < table.length; i++){
+                    table[i] = new Array(19);
+                }
+                return table;
+            }
             
         </script>
     </body>
