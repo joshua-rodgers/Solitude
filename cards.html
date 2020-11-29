@@ -2,29 +2,29 @@
     <head>
         <style>
             .container {
-                border: 1px solid black;
+                border: 2px solid darkorange;
+                border-radius: 5px;
                 padding: 20px;
-                
             }
             
             .foundation {
                 display: inline-block;
                 width: 7%;
                 font-size: .5em;
-                background-color: darkgreen;
             }
             
             #playarea {
                 width: 80%;
                 margin: 0 auto;
                 text-align: center;
-                background-color: green;
+                background-color: black;
+                color: darkorange;
+                font-family: monospace
             }
             
             #pile {
                 display: inline-block;
                 width: 80px;
-                background-color: darkgreen;
                 font-size: .5em;
             }
             
@@ -39,16 +39,36 @@
                 display: grid;
                 grid-template-columns: repeat(7, 13.4%);
                 grid-column-gap: 1%;
-                margin-top: 10%;
+                margin-top: 5%;
+                margin-bottom: 10%;
+            }
+            
+            #command-box{
+                width: 80%;
+                margin: 0 auto;
+            }
+            
+            #command {
+                width: 80%;
+                background-color: black;
+                border-style: none;
+                border: 2px solid darkorange;
+                border-radius: 5px;
+                color: darkorange;
+                font-family: inherit;
+            }
+            
+            #command-output {
+                text-transform: uppercase;
             }
         </style>
     </head>
     <body>
         <!--♣︎♥︎♦︎♠︎♤♧♡♢-->
         <div class="container" id="playarea">
-            <h1 class="label">Play Area</h1>
+            <h1 class="label">SOLITAIRE</h1>
             <div class="container" id="pile">
-                <h1 class="label">Pile</h1>
+                <h1 class="label">Waste</h1>
             </div>
             <div class="container" id="pile-top">
                 <h1 class="label">Avail.</h1>
@@ -68,6 +88,13 @@
             <div class="container" id="table-box">
                 
             </div>
+            <div class="container" id="command-box">
+                <form>
+                    <label for="command">COMMAND:</label>
+                    <input type="text" id="command" name="command">
+                    <span id="command-output">output</span>
+                </form>
+            </div>
         </div>
         <script src="Card.js"></script>
         <script src="Data_Display.js"></script>
@@ -82,6 +109,20 @@
             this.dd = new Data_Display(sd);
             dd.refresh();
             //==================================================================
+            /*
+            cmd is cammand textbox, cmd_out is output span for error messages
+            Game_Master will call data model methods to trigger state changes and
+            also call refresh() method of dd to update display
+            Command_processor will parse text commands from command textbox and
+            pass "command keywords" to game_master which will result in the 
+            proper call to the data model. invalid commands will merely trigger
+            messages to be output into cmd_out.
+            */
+            var cmd = document.getElementById("command");
+            var cmd_out = document.getElementById("command-output");
+            var gm = new Game_Master(sd, dd);
+            var cp = new Command_Processor(cmd, cmd_out, gm);
+            //===================================================================
         </script>
     </body>
 </html>

@@ -51,11 +51,11 @@ function Initializer(_Game){
                     break;
                 case 3: 
                     // clubs
-                    generate_suit("♣︎", "black");
+                    generate_suit("♣︎", "darkorange");
                     break;
                 case 4:
                     // spades
-                    generate_suit("♠︎", "black");
+                    generate_suit("♠︎", "darkorange");
                     break;
             }
         }
