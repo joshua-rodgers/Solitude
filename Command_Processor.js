@@ -5,7 +5,7 @@ function Command_Processor(textbox, msg_box, controller){
     
     
     var _handle_input = function(e){
-        var input = textbox.value;
+        var input = textbox.value.toUpperCase();
         textbox.value = "";
         
         var tokens = _tokenize(input);
@@ -40,10 +40,12 @@ function Command_Processor(textbox, msg_box, controller){
         // it together too.
         var output = "";
         var context = "";
-        var operand1 = new Card_Descriptor("", "");
-        var operand2 = new Card_Descriptor("", "");
+        var operand1;
+        var operand2;
         var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
         var suits = ["HEARTS", "DIAMONDS", "CLUBS", "SPADES"];
+        //var reds = ["HEARTS", "DIAMONDS"];
+        //var blacks = ["CLUBS", "SPADES"];
         //var token_cursor = 0;
         var current_token = input[0];
         var status = "";
@@ -56,8 +58,7 @@ function Command_Processor(textbox, msg_box, controller){
                     break;
                 case "MOVE":
                     if(context == ""){
-                        operand1.value = input[1];
-                        operand1.suit = input[2];
+                        operand1 = new Card_Descriptor(input[1], input[2]);
                         //console.log(operand1);
                         if(values.includes(operand1.value)){
                             //console.log("in condition");
@@ -78,14 +79,14 @@ function Command_Processor(textbox, msg_box, controller){
                 case "TO":
                     //console.log(context);
                     if(context == "MOVE"){
-                        operand2.value = input[4];
-                        operand2.suit = input[5];
+                        operand2 = new Card_Descriptor(input[4], input[5]);
                         //console.log(operand2);
                         if(values.includes(operand2.value)){
                             //console.log("in condition2");
                             if(suits.includes(operand2.suit)){
                                 //console.log("in condition2");
-                                output = ["MOVE", operand1.value, operand1.suit, operand2.value, operand2.suit];
+                                //output = ["MOVE", operand1.value, operand1.suit, operand1.color, operand2.value, operand2.suit, operand2.color];
+                                output = ["MOVE", operand1, operand2];
                                 done = true;
                                 //console.log(status);
                             }else{
@@ -111,8 +112,15 @@ function Command_Processor(textbox, msg_box, controller){
         return output;
     }
     
-    function Card_Descriptor(suit, value){
+    function Card_Descriptor(value, suit){
+        var _reds = ["HEARTS", "DIAMONDS"];
         this.suit = suit;
         this.value = value;
+        console.log(suit);
+        if(_reds.includes(this.suit)){
+            this.color = "RED";
+        }else{
+            this.color = "BLACK";
+        }
     }
 }
