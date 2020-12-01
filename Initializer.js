@@ -1,9 +1,10 @@
 function Initializer(_Game){
-    function Card(suit, value, suit_color){
+    function Card(suit, value, suit_color, symbol){
         this.suit = suit;
         this.value = value;
         this.is_face_up = false;
         this.suit_color = suit_color;
+        this.symbol = symbol;
     }
     
     this.deal_cards = function() {
@@ -43,19 +44,19 @@ function Initializer(_Game){
             switch(suit_count) {
                 case 1:
                     // hearts
-                    generate_suit("♥︎", "red");
+                    generate_suit("HEARTS", "♥︎", "red");
                     break;
                 case 2: 
                     // diamonds
-                    generate_suit("♦︎", "red");
+                    generate_suit("DIAMONDS", "♦︎","red");
                     break;
                 case 3: 
                     // clubs
-                    generate_suit("♣︎", "darkorange");
+                    generate_suit("CLUBS", "♣︎", "darkorange");
                     break;
                 case 4:
                     // spades
-                    generate_suit("♠︎", "darkorange");
+                    generate_suit("SPADES", "♠︎", "darkorange");
                     break;
             }
         }
@@ -63,37 +64,37 @@ function Initializer(_Game){
         return this.shuffle_deck(deck);
 
         //------------INNER FUNCTION OF CREATE_DECK----------------------
-        function generate_suit(suit, color){
+        function generate_suit(suit, symbol, color){
             var face_counter = 14;
             for(;face_counter >= 2; face_counter--){
                 switch(face_counter) {
                     case 14:
                         // ace
                         value = "A";
-                        deck[deck_cursor] = new Card(suit, value, color);
+                        deck[deck_cursor] = new Card(suit, value, color, symbol);
                         deck_cursor++;
                         break;
                     case 13:
                         // king
                         value = "K";
-                        deck[deck_cursor] = new Card(suit, value, color);
+                        deck[deck_cursor] = new Card(suit, value, color, symbol);
                         deck_cursor++;
                         break;
                     case 12:
                         // queen
                         value = "Q";
-                        deck[deck_cursor] = new Card(suit, value, color);
+                        deck[deck_cursor] = new Card(suit, value, color, symbol);
                         deck_cursor++;
                         break;
                     case 11:
                         // jack
                         value = "J";
-                        deck[deck_cursor] = new Card(suit, value, color);
+                        deck[deck_cursor] = new Card(suit, value, color, symbol);
                         deck_cursor++;
                         break;
                     default:
                         for(; face_counter >=2; face_counter--){
-                            deck[deck_cursor] = new Card(suit, face_counter, color);
+                            deck[deck_cursor] = new Card(suit, face_counter, color, symbol);
                             deck_cursor++;
                         }     
                 }

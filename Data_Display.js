@@ -43,7 +43,7 @@ function Data_Display(_Game) {
             for(var data_card of data_col){
                 if(data_card != undefined){
                     if(data_card.is_face_up){
-                        display_col.childNodes[j].innerText = data_card.suit + " " + data_card.value;
+                        display_col.childNodes[j].innerText = data_card.symbol + " " + data_card.value;
                         display_col.childNodes[j].style.color = data_card.suit_color;
                     }else {
                         display_col.childNodes[j].innerText = "*";

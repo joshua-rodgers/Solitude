@@ -23,10 +23,13 @@ function Game_Master(data, display){
             case "MOVE":
                 
                 if(_card1.color != _card2.color){
-                    console.log("early progress...")
+                    console.log("early progress...");
                     if(_rank[_card2.value] - _rank[_card1.value] == 1){
-                        console.log("progress...")
-                        return true;
+                        console.log("progress...");
+                        if(data.move_card(_card1, _card2)){
+                            display.refresh();
+                            return true;
+                        } 
                     }else{
                         return false;
                     }
