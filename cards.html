@@ -59,6 +59,7 @@
             }
             
             #command-output {
+                display: block;
                 text-transform: uppercase;
             }
         </style>
@@ -89,17 +90,16 @@
                 
             </div>
             <div class="container" id="command-box">
-                <form>
-                    <label for="command">COMMAND:</label>
-                    <input type="text" id="command" name="command">
-                    <span id="command-output">output</span>
-                </form>
+                <input type="text" id="command" name="command">
+                <span id="command-output">output</span>
             </div>
         </div>
         <script src="Card.js"></script>
         <script src="Data_Display.js"></script>
         <script src="Initializer.js"></script>
         <script src="Solitaire_Data.js"></script>
+        <script src="Game_Master.js"></script>
+        <script src="Command_Processor.js"></script>
         <script>
             var sd = new Solitaire_Data();
             sd.init_game();
@@ -122,6 +122,7 @@
             var cmd_out = document.getElementById("command-output");
             var gm = new Game_Master(sd, dd);
             var cp = new Command_Processor(cmd, cmd_out, gm);
+            cp.init_proc();
             //===================================================================
         </script>
     </body>
