@@ -21,11 +21,7 @@ function Command_Processor(textbox, msg_box, controller){
             }
         }else{
             msg_box.textContent = command;
-        }
-        
-
-        
-        
+        }   
     }
     
     var _tokenize = function(input){
@@ -96,6 +92,22 @@ function Command_Processor(textbox, msg_box, controller){
                             status = "ERROR";
                         }
                     }  
+                    break;
+                case "BUILD":
+                    var card = new Card_Descriptor(input[2], input[1]);
+                    if(values.includes(card.value)){
+                            //console.log("in condition2");
+                        if(suits.includes(card.suit)){
+                            //console.log("in condition2");
+                            output = ["BUILD", card];
+                            done = true;
+                            //console.log(status);
+                        }else{
+                            status = "ERROR";
+                        }
+                    }else{
+                        status = "ERROR";
+                    }
                     break;
                 default:
                     //console.log("in default");

@@ -17,11 +17,15 @@ function Game_Master(data, display){
     this.arr = ["this", "is", "test"];
     
     this.do = function(input){
-        var _card1 = input[1];
-        var _card2 = input[2];
+        if(input[0] == "MOVE"){
+            var _card1 = input[1];
+            var _card2 = input[2];
+        }else if(input[0] = "BUILD"){
+            var card = input[1];
+         }
+        
         switch(input[0]){
             case "MOVE":
-                
                 if(_card1.color != _card2.color){
                     console.log("early progress...");
                     if(_rank[_card2.value] - _rank[_card1.value] == 1){
@@ -38,6 +42,45 @@ function Game_Master(data, display){
                 }
                 break;
             case "BUILD":
+                var card_suit = card.suit;
+                switch(card_suit){
+                    case "HEARTS":
+                        if(data.data_f_hearts[0] == null){
+                            if(card.value == "A"){
+                                data.build_foundation(card);
+                                display.refresh();
+                                return true;
+                            }
+                        }
+                        break;
+                    case "CLUBS":
+                        if(data.data_f_clubs[0] == null){
+                            if(card.value == "A"){
+                                data.build_foundation(card);
+                                display.refresh();
+                                return true;
+                            }
+                        }
+                        break;
+                    case "DIAMONDS":
+                        if(data.data_f_diamonds[0] == null){
+                            if(card.value == "A"){
+                                data.build_foundation(card);
+                                display.refresh();
+                                return true;
+                            }
+                        }
+                        break;
+                    case "SPADES":
+                        if(data.data_f_spades[0] == null){
+                            if(card.value == "A"){
+                                data.build_foundation(card);
+                                display.refresh();
+                                return true;
+                            }
+                        }
+                        break;
+                }
                 break;
         }
     }

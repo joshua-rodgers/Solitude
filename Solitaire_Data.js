@@ -4,10 +4,11 @@ function Solitaire_Data(){
     this.tableau;
     this.stock_pile;
     this.stock_pile_avail;
-    this.data_f1;
-    this.data_f2;
-    this.data_f3;
-    this.data_f4;
+    this.data_f_hearts;
+    this.data_f_clubs;
+    this.data_f_diamonds;
+    this.data_f_spades;
+    this.f_was_mod = false;
     
     this.init_game = function(){
         this.cards = _initializer.create_deck();
@@ -15,14 +16,15 @@ function Solitaire_Data(){
         this.tableau = _initializer.create_tableau();
         this.stock_pile = _initializer.deal_cards();
         this.stock_pile_avail;
-        this.data_f1 = new Array(13);
-        this.data_f2 = new Array(13);
-        this.data_f3 = new Array(13);
-        this.data_f4 = new Array(13);
+        this.data_f_hearts = new Array(1);
+        this.data_f_clubs = new Array(1);
+        this.data_f_diamonds = new Array(1);
+        this.data_f_spades = new Array(1);
         
     }
     
     this.move_card = function(card1, card2){
+        /*
         var card1_found = false;
         var card2_found = false;
         var card1_loc;
@@ -58,10 +60,14 @@ function Solitaire_Data(){
                 break;
             }
         }
+        */
+        var cards_found = this.find_cards(card1, card2);
+        var card1_loc = cards_found[0];
+        var card2_loc = cards_found[1];
         
-        if(card1_found && card2_found){
+        if(card1_loc != null && card2_loc != null){
             console.log("next to last if");
-            this.tableau[card2_loc.outer][card2_loc.inner + 1] = this.tableau[card1_loc.outer][card1_loc.inner]
+            this.tableau[card2_loc.outer][card2_loc.inner + 1] = this.tableau[card1_loc.outer][card1_loc.inner];
             this.tableau[card1_loc.outer][card1_loc.inner] = null;
             if(card1_loc.inner > 0){
                 console.log("last if");
@@ -70,6 +76,113 @@ function Solitaire_Data(){
             return true;
         }
         return false;
+    }
+    
+    this.build_foundation = function(card){
+        var cards_found = this.find_cards(card, null);
+        var card_loc = cards_found[0];
+        var card_suit = card.suit;
+        
+        switch(card_suit){
+            case "HEARTS":
+                if(this.data_f_hearts.length > 1){
+                    this.data_f_hearts.push(this.tableau[card_loc.outer][card_loc.inner]);
+                }else{
+                    this.data_f_hearts[0] = this.tableau[card_loc.outer][card_loc.inner]
+                }
+                
+                console.log(this.data_f_hearts);
+                this.tableau[card_loc.outer][card_loc.inner] = null;
+                if(card_loc.inner > 0){
+                    this.tableau[card_loc.outer][card_loc.inner - 1].is_face_up = true;
+                }
+                
+                console.log("bfh");
+                break;
+            case "CLUBS":
+                if(this.data_f_clubs.length > 1){
+                    this.data_f_clubs.push(this.tableau[card_loc.outer][card_loc.inner]);
+                }else{
+                    this.data_f_clubs[0] = this.tableau[card_loc.outer][card_loc.inner]
+                }
+                console.log(this.data_f_clubs);
+                this.tableau[card_loc.outer][card_loc.inner] = null;
+                if(card_loc.inner > 0){
+                    this.tableau[card_loc.outer][card_loc.inner - 1].is_face_up = true;
+                }
+                console.log("bfc");
+                break;
+            case "DIAMONDS":
+                if(this.data_f_diamonds.length > 1){
+                    this.data_f_diamonds.push(this.tableau[card_loc.outer][card_loc.inner]);
+                }else{
+                    this.data_f_diamonds[0] = this.tableau[card_loc.outer][card_loc.inner]
+                }
+                console.log(this.data_f_diamonds);
+                this.tableau[card_loc.outer][card_loc.inner] = null;
+                if(card_loc.inner > 0){
+                    this.tableau[card_loc.outer][card_loc.inner - 1].is_face_up = true;
+                }
+                console.log("bfd");
+                break;
+            case "SPADES":
+                if(this.data_f_spades.length > 1){
+                    this.data_f_spades.push(this.tableau[card_loc.outer][card_loc.inner]);
+                }else{
+                    this.data_f_spades[0] = this.tableau[card_loc.outer][card_loc.inner]
+                }
+                console.log(this.data_f_spades);
+                this.tableau[card_loc.outer][card_loc.inner] = null;
+                if(card_loc.inner > 0){
+                    this.tableau[card_loc.outer][card_loc.inner - 1].is_face_up = true;
+                }
+                console.log("bfs");
+                break;
+        }
+        this.f_was_mod = true;
+        return true;
+    }
+    
+    this.find_cards = function(card1, card2){
+        var card1_found = false;
+        var card2_found = false;
+        if(card2 == null){
+            card2_found = true;
+        }
+        var card1_loc;
+        var card2_loc;
+        for(var i = 0; i < this.tableau.length; i++){
+            for(var j = 0; j < this.tableau[i].length; j++){
+                if((!card1_found) && (this.tableau[i][j] != null)){
+                    console.log("search1");
+                    console.log(this.tableau[i][j].value + " " + this.tableau[i][j].suit);
+                    console.log(card1.value + " " + card1.suit);
+                    if(this.tableau[i][j].value == card1.value && this.tableau[i][j].suit == card1.suit){
+                        console.log("nin check1");
+                        card1_loc = new Card_Location(i, j);
+                        card1_found = true;
+                    }
+                }
+                if((!card2_found) && (this.tableau[i][j] != null)){
+                    console.log("search2");
+                    if(this.tableau[i][j].value == card2.value && this.tableau[i][j].suit == card2.suit){
+                        console.log("nin check2");
+                        card2_loc = new Card_Location(i, j);
+                        card2_found = true;
+                    }
+                }
+                
+                if(card1_found && card2_found){
+                    console.log("inner break");
+                    break;
+                }
+            }
+            if(card1_found && card2_found){
+                console.log("outer break");
+                break;
+            }
+        }
+        return [card1_loc, card2_loc];
     }
     
     function Card_Location(outer, inner){
