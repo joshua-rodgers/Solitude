@@ -85,7 +85,7 @@ function Solitaire_Data(){
         
         switch(card_suit){
             case "HEARTS":
-                if(this.data_f_hearts.length > 1){
+                if(this.data_f_hearts[0] != null){
                     this.data_f_hearts.push(this.tableau[card_loc.outer][card_loc.inner]);
                 }else{
                     this.data_f_hearts[0] = this.tableau[card_loc.outer][card_loc.inner]
@@ -100,7 +100,7 @@ function Solitaire_Data(){
                 console.log("bfh");
                 break;
             case "CLUBS":
-                if(this.data_f_clubs.length > 1){
+                if(this.data_f_clubs[0] != null){
                     this.data_f_clubs.push(this.tableau[card_loc.outer][card_loc.inner]);
                 }else{
                     this.data_f_clubs[0] = this.tableau[card_loc.outer][card_loc.inner]
@@ -113,7 +113,7 @@ function Solitaire_Data(){
                 console.log("bfc");
                 break;
             case "DIAMONDS":
-                if(this.data_f_diamonds.length > 1){
+                if(this.data_f_diamonds[0] != null){
                     this.data_f_diamonds.push(this.tableau[card_loc.outer][card_loc.inner]);
                 }else{
                     this.data_f_diamonds[0] = this.tableau[card_loc.outer][card_loc.inner]
@@ -126,7 +126,7 @@ function Solitaire_Data(){
                 console.log("bfd");
                 break;
             case "SPADES":
-                if(this.data_f_spades.length > 1){
+                if(this.data_f_spades[0] != null){
                     this.data_f_spades.push(this.tableau[card_loc.outer][card_loc.inner]);
                 }else{
                     this.data_f_spades[0] = this.tableau[card_loc.outer][card_loc.inner]

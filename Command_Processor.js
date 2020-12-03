@@ -48,6 +48,10 @@ function Command_Processor(textbox, msg_box, controller){
         var done = false;
         
         while(!done){
+            /*
+            NEED SYNTAX FOR MOVING KING INTO EMPTY COLUMN
+            AND FOR MOVING ENTIRE COLUMN!!!
+            */
             switch(current_token){
                 case "TEST":
                     
