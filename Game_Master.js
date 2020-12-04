@@ -25,6 +25,9 @@ function Game_Master(data, display){
                 }
             }
         }
+        if(data.stock_pile[data.stock_pile.length - 1].is_face_up){
+            avail.push(data.stock_pile[data.stock_pile.length - 1]);
+        }
         console.log(avail);
         return avail;
     }
@@ -69,6 +72,7 @@ function Game_Master(data, display){
     
     this.do = function(input){
         if(input[0] == "MOVE"){
+            console.log("test");
             var _card1 = input[1];
             var _card2 = input[2];
             if(_validate(_card1, _card2)){
@@ -76,7 +80,8 @@ function Game_Master(data, display){
             }else{
                 return false;
             }
-        }else if(input[0] = "BUILD"){
+        }else if(input[0] == "BUILD"){
+            console.log("test2");
             var card = input[1];
             if(_validate(card, null)){
                 //nothing
@@ -170,6 +175,16 @@ function Game_Master(data, display){
                         break;
                 }
                 break;
+            case "STOCK":
+                console.log("in stock");
+                if(data.stock_pile[0] != null){
+                    console.log("in stock con");
+                    data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
+                    display.refresh();
+                    return true;
+                }else{
+                    return false;
+                }
         }
     }
 }

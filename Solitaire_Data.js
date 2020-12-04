@@ -12,9 +12,10 @@ function Solitaire_Data(){
     
     this.init_game = function(){
         this.cards = _initializer.create_deck();
-        console.log(this.cards);
+        //console.log(this.cards);
         this.tableau = _initializer.create_tableau();
         this.stock_pile = _initializer.deal_cards();
+        console.log(this.stock_pile);
         this.stock_pile_avail;
         this.data_f_hearts = new Array(1);
         this.data_f_clubs = new Array(1);
@@ -24,43 +25,7 @@ function Solitaire_Data(){
     }
     
     this.move_card = function(card1, card2){
-        /*
-        var card1_found = false;
-        var card2_found = false;
-        var card1_loc;
-        var card2_loc;
-        for(var i = 0; i < this.tableau.length; i++){
-            for(var j = 0; j < this.tableau[i].length; j++){
-                if((!card1_found) && (this.tableau[i][j] != null)){
-                    console.log("search1");
-                    console.log(this.tableau[i][j].value + " " + this.tableau[i][j].suit);
-                    console.log(card1.value + " " + card1.suit);
-                    if(this.tableau[i][j].value == card1.value && this.tableau[i][j].suit == card1.suit){
-                        console.log("nin check1");
-                        card1_loc = new Card_Location(i, j);
-                        card1_found = true;
-                    }
-                }
-                if((!card2_found) && (this.tableau[i][j] != null)){
-                    console.log("search2");
-                    if(this.tableau[i][j].value == card2.value && this.tableau[i][j].suit == card2.suit){
-                        console.log("nin check2");
-                        card2_loc = new Card_Location(i, j);
-                        card2_found = true;
-                    }
-                }
-                
-                if(card1_found && card2_found){
-                    console.log("inner break");
-                    break;
-                }
-            }
-            if(card1_found && card2_found){
-                console.log("outer break");
-                break;
-            }
-        }
-        */
+        
         var cards_found = this.find_cards(card1, card2);
         var card1_loc = cards_found[0];
         var card2_loc = cards_found[1];
@@ -143,6 +108,10 @@ function Solitaire_Data(){
         return true;
     }
     
+    this.from_stock = function(input){
+        
+    }
+    
     this.find_cards = function(card1, card2){
         var card1_found = false;
         var card2_found = false;
@@ -182,6 +151,7 @@ function Solitaire_Data(){
                 break;
             }
         }
+
         return [card1_loc, card2_loc];
     }
     

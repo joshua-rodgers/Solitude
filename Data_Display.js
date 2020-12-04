@@ -10,6 +10,7 @@ function Data_Display(_Game) {
     model_col.className = "tableau-col container";
 
     var table_box = document.getElementById("table-box");
+    var pile = document.getElementById("pile");
     var pile_top = document.getElementById("pile-top");
     var f_hearts = document.getElementById("foundation-1");
     var f_clubs = document.getElementById("foundation-2");
@@ -43,7 +44,7 @@ function Data_Display(_Game) {
         var i = 0;
         var j = 0;
         var display_col;
-
+        // refreshes tableau
         for(var data_col of _Game.tableau){
             display_col = tableau_display[i];
 
@@ -65,6 +66,7 @@ function Data_Display(_Game) {
             j = 0;
             i++;
         }
+        // refreshes foundations
         if(_Game.f_was_mod){
             for(var i = 0; i < 4; i++){
                 switch(i){
@@ -105,7 +107,13 @@ function Data_Display(_Game) {
                 }
             }
         }
-        
+        // refreshes stockpile
+        console.log("refreshing");
+        if(_Game.stock_pile[_Game.stock_pile.length - 1].is_face_up){
+            pile.innerText = _Game.stock_pile[_Game.stock_pile.length - 1].symbol + " " + _Game.stock_pile[_Game.stock_pile.length - 1].value;
+        }else{
+            pile.innerText = "*";
+        }
     }
 }
 /*----------------------------------------------

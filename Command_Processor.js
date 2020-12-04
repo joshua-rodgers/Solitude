@@ -113,6 +113,19 @@ function Command_Processor(textbox, msg_box, controller){
                         status = "ERROR";
                     }
                     break;
+                case "STOCK":
+                    if(context == ""){
+                        if(input.length > 1){
+                            context = "STOCK";
+                            break;
+                        }
+                        output = ["STOCK"];
+                        done = true;
+                    }else if(context == "STOCK"){
+                        
+                    }
+                    
+                    break;
                 default:
                     //console.log("in default");
                     output = "INVALID COMMAND";
