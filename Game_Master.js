@@ -16,17 +16,25 @@ function Game_Master(data, display){
     
     var _get_available = function(){
         console.log("in avail");
-        var avail = new Array(7);
+        var avail = [];
         for(var i = 0; i < data.tableau.length; i++){
             for(var j = 0; j < data.tableau[i].length; j++){
+                if(j == 0){
+                    if(data.tableau[i][j] == null){
+                        break;
+                    }
+                }
                 if(j == 18 || data.tableau[i][j + 1] == null){
-                    avail[i] = data.tableau[i][j];
+                    avail.push(data.tableau[i][j]);
                     break;
                 }
             }
         }
         if(data.stock_pile[data.stock_pile.length - 1].is_face_up){
             avail.push(data.stock_pile[data.stock_pile.length - 1]);
+        }
+        if(data.discard_pile.length > 0){
+            avail.push(data.discard_pile[data.discard_pile.length - 1]);
         }
         console.log(avail);
         return avail;
@@ -70,7 +78,7 @@ function Game_Master(data, display){
         }
     }
     
-    this.do = function(input){
+    this.do = function(input, is_from_stock){
         if(input[0] == "MOVE"){
             console.log("test");
             var _card1 = input[1];
@@ -98,10 +106,18 @@ function Game_Master(data, display){
                     console.log("early progress...");
                     if(_rank[_card2.value] - _rank[_card1.value] == 1){
                         console.log("progress...");
-                        if(data.move_card(_card1, _card2)){
-                            display.refresh();
-                            return true;
-                        } 
+                        if(is_from_stock){
+                            if(data.move_card(_card1, _card2, true)){
+                                display.refresh();
+                                return true;
+                            }
+                        }else{
+                            if(data.move_card(_card1, _card2, false)){
+                                display.refresh();
+                                return true;
+                            }
+                        }
+                         
                     }else{
                         return false;
                     }
@@ -113,64 +129,129 @@ function Game_Master(data, display){
                 var card_suit = card.suit;
                 switch(card_suit){
                     case "HEARTS":
-                        if(data.data_f_hearts[0] == null){
-                            if(card.value == "A"){
-                                data.build_foundation(card);
+                        if(is_from_stock){
+                            if(data.data_f_hearts[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
+                                console.log("valid");
+                                data.build_foundation(card, true);
+                                display.refresh();
+                                return true;
+                            }
+                        }else{
+                            if(data.data_f_hearts[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
+                                console.log("valid");
+                                data.build_foundation(card, false);
                                 display.refresh();
                                 return true;
                             }
                         }
-                        if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
-                            console.log("valid");
-                            data.build_foundation(card);
-                            display.refresh();
-                            return true;
-                        }
+                        
                         return false;
                         break;
                     case "CLUBS":
-                        if(data.data_f_clubs[0] == null){
-                            if(card.value == "A"){
-                                data.build_foundation(card);
+                        if(is_from_stock){
+                            if(data.data_f_clubs[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_clubs[data.data_f_clubs.length - 1].value] == 1){
+                                data.build_foundation(card, true);
+                                display.refresh();
+                                return true;
+                            }
+                        }else{
+                            if(data.data_f_clubs[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_clubs[data.data_f_clubs.length - 1].value] == 1){
+                                data.build_foundation(card, false);
                                 display.refresh();
                                 return true;
                             }
                         }
-                        if(_rank[card.value] - _rank[data.data_f_clubs[data.data_f_clubs.length - 1].value] == 1){
-                            data.build_foundation(card);
-                            display.refresh();
-                            return true;
-                        }
+                        
                         return false;
                         break;
                     case "DIAMONDS":
-                        if(data.data_f_diamonds[0] == null){
-                            if(card.value == "A"){
-                                data.build_foundation(card);
+                        if(is_from_stock){
+                            if(data.data_f_diamonds[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_diamonds[data.data_f_diamonds.length - 1].value] == 1){
+                                data.build_foundation(card, true);
+                                display.refresh();
+                                return true;
+                            }
+                        }else{
+                            if(data.data_f_diamonds[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_diamonds[data.data_f_diamonds.length - 1].value] == 1){
+                                data.build_foundation(card, false);
                                 display.refresh();
                                 return true;
                             }
                         }
-                        if(_rank[card.value] - _rank[data.data_f_diamonds[data.data_f_diamonds.length - 1].value] == 1){
-                            data.build_foundation(card);
-                            display.refresh();
-                            return true;
-                        }
+                        
                         return false;
                         break;
                     case "SPADES":
-                        if(data.data_f_spades[0] == null){
-                            if(card.value == "A"){
-                                data.build_foundation(card);
+                        if(is_from_stock){
+                            if(data.data_f_spades[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_spades[data.data_f_spades.length - 1].value] == 1){
+                                data.build_foundation(card, true);
+                                display.refresh();
+                                return true;
+                            }
+                        }else{
+                            if(data.data_f_spades[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_spades[data.data_f_spades.length - 1].value] == 1){
+                                data.build_foundation(card, false);
                                 display.refresh();
                                 return true;
                             }
                         }
-                        if(_rank[card.value] - _rank[data.data_f_spades[data.data_f_spades.length - 1].value] == 1){
-                            data.build_foundation(card);
-                            display.refresh();
-                            return true;
-                        }
+                        
                         return false;
                         break;
                 }
@@ -178,13 +259,25 @@ function Game_Master(data, display){
             case "STOCK":
                 console.log("in stock");
                 if(data.stock_pile[0] != null){
-                    console.log("in stock con");
-                    data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
-                    display.refresh();
-                    return true;
+                    if(data.stock_pile[data.stock_pile.length - 1].is_face_up){
+                        data.discard_pile.push(data.stock_pile.pop());
+                        data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
+                        display.refresh();
+                        return true;
+                    }else{
+                        console.log("in stock con");
+                        data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
+                        display.refresh();
+                        return true;
+                    }
+                    
                 }else{
                     return false;
                 }
         }
+    }
+    
+    this.get_stock_top = function(){
+        return data.stock_pile[data.stock_pile.length - 1];
     }
 }

@@ -13,12 +13,44 @@ function Command_Processor(textbox, msg_box, controller){
         var command = _parse_input(tokens);
         
         if(command != "INVALID COMMAND"){
-            if(controller.do(command)){
-                msg_box.textContent = "&nbsp;";
+            if(command.length > 3){
+                console.log("in 3 more");
+                if(command[3] == "STOCK"){
+                    if(controller.do(command, true)){
+                        msg_box.textContent = "&nbsp;";
+                    }else{
+                        console.log("dummy");
+                        msg_box.textContent = "INVALID COMMAND";
+                    }
+                }
+            }else if(command.length == 3){
+                console.log("in 3");
+                if(command[2] == "STOCK"){
+                    console.log("in 3 con");
+                    if(controller.do(command, true)){
+                        msg_box.textContent = "&nbsp;";
+                    }else{
+                        console.log("dummy");
+                        msg_box.textContent = "INVALID COMMAND";
+                    }
+                }else{
+                    if(controller.do(command, false)){
+                        msg_box.textContent = "&nbsp;";
+                    }else{
+                        console.log("dummy");
+                        msg_box.textContent = "INVALID COMMAND";
+                    }
+                }
             }else{
-                console.log("dummy");
-                msg_box.textContent = "INVALID COMMAND";
+                console.log("in else");
+                if(controller.do(command, false)){
+                    msg_box.textContent = "&nbsp;";
+                }else{
+                    console.log("dummy");
+                    msg_box.textContent = "INVALID COMMAND";
+                }
             }
+            
         }else{
             msg_box.textContent = command;
         }   
@@ -38,6 +70,8 @@ function Command_Processor(textbox, msg_box, controller){
         var context = "";
         var operand1;
         var operand2;
+        var card;
+        var stock_card;
         var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
         var suits = ["HEARTS", "DIAMONDS", "CLUBS", "SPADES"];
         //var reds = ["HEARTS", "DIAMONDS"];
@@ -98,7 +132,7 @@ function Command_Processor(textbox, msg_box, controller){
                     }  
                     break;
                 case "BUILD":
-                    var card = new Card_Descriptor(input[2], input[1]);
+                    card = new Card_Descriptor(input[2], input[1]);
                     if(values.includes(card.value)){
                             //console.log("in condition2");
                         if(suits.includes(card.suit)){
@@ -115,25 +149,66 @@ function Command_Processor(textbox, msg_box, controller){
                     break;
                 case "STOCK":
                     if(context == ""){
-                        if(input.length > 1){
+                        console.log("blank");
+                        if(input.length == 4){
                             context = "STOCK";
                             break;
+                        }else if(input.length == 3){
+                            console.log("shoulda and was");
+                            context = "BUILD";
+                        }else{
+                            output = ["STOCK"];
+                            done = true;
                         }
-                        output = ["STOCK"];
-                        done = true;
                     }else if(context == "STOCK"){
-                        
+                        console.log("in ctx stock");
+                        operand2 = new Card_Descriptor(input[2], input[3]);
+                        stock_card = controller.get_stock_top();
+                        operand1 = new Card_Descriptor(stock_card.value, stock_card.suit);
+                        //console.log(operand2);
+                        if(values.includes(operand2.value)){
+                            //console.log("in condition2");
+                            if(suits.includes(operand2.suit)){
+                                //console.log("in condition2");
+                                //output = ["MOVE", operand1.value, operand1.suit, operand1.color, operand2.value, operand2.suit, operand2.color];
+                                output = ["MOVE", operand1, operand2, "STOCK"];
+                                done = true;
+                                //console.log(status);
+                            }else{
+                                status = "ERROR";
+                            }
+                        }else{
+                            status = "ERROR";
+                        }
+                    }else if(context == "BUILD"){
+                        console.log("in ctx build");
+                        stock_card = controller.get_stock_top();
+                        console.log(stock_card.value + " " + stock_card.suit);
+                        card = new Card_Descriptor(stock_card.value.toString(), stock_card.suit.toString());
+                        if(values.includes(card.value)){
+                                //console.log("in condition2");
+                            if(suits.includes(card.suit)){
+                                console.log("in condition2");
+                                output = ["BUILD", card, "STOCK"];
+                                done = true;
+                                //console.log(status);
+                            }else{
+                                status = "ERROR";
+                            }
+                        }else{
+                            status = "ERROR";
+                        }
                     }
                     
                     break;
                 default:
-                    //console.log("in default");
+                    console.log("in default");
                     output = "INVALID COMMAND";
                     done = true;
                     break;
             }
             if(status == "ERROR"){
-                //console.log("in status");
+                console.log("in status");
                 output = "INVALID COMMAND";
                 done = true;
             }

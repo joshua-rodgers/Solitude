@@ -11,7 +11,7 @@ function Data_Display(_Game) {
 
     var table_box = document.getElementById("table-box");
     var pile = document.getElementById("pile");
-    var pile_top = document.getElementById("pile-top");
+    var discard_pile = document.getElementById("discard");
     var f_hearts = document.getElementById("foundation-1");
     var f_clubs = document.getElementById("foundation-2");
     var f_diamonds = document.getElementById("foundation-3");
@@ -39,6 +39,12 @@ function Data_Display(_Game) {
             foundations[i].appendChild(new_space.cloneNode());
         }
     }
+    
+    
+    for(var j = 0; j < 24; j++){
+        discard_pile.appendChild(new_space.cloneNode());
+    }
+    
 
     this.refresh = function(){
         var i = 0;
@@ -113,6 +119,12 @@ function Data_Display(_Game) {
             pile.innerText = _Game.stock_pile[_Game.stock_pile.length - 1].symbol + " " + _Game.stock_pile[_Game.stock_pile.length - 1].value;
         }else{
             pile.innerText = "*";
+        }
+        if(_Game.discard_pile[_Game.discard_pile.length - 1] != null){
+            discard_pile.innerText = _Game.discard_pile[_Game.discard_pile.length - 1].symbol + " " + _Game.discard_pile[_Game.discard_pile.length - 1].value;
+        }else{
+            discard_pile.innerText = "";
+            discard_pile.innerHTML = "&nbsp;";
         }
     }
 }
