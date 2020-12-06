@@ -24,7 +24,7 @@ function Solitaire_Data(){
         
     }
     
-    this.move_card = function(card1, card2, is_from_stock, column_num = -1){
+    this.move_card = function(card1, card2, is_from_stock, column_num = -1, is_from_waste = false){
         if(column_num >= 0){
             if(is_from_stock){
                 if(this.tableau[column_num][0] == null){
@@ -61,6 +61,16 @@ function Solitaire_Data(){
                 return true;
             }
             return false;
+        }else if(is_from_waste){
+            var cards_found = this.find_cards(card2, null);
+            var card2_loc = cards_found[0];
+            
+            if(this.discard_pile[this.discard_pile.length - 1].is_face_up && card2_loc != null){
+                console.log("next to last if");
+                this.tableau[card2_loc.outer][card2_loc.inner + 1] = this.discard_pile.pop();
+                return true;
+            }
+            return false;
         }else{
             var cards_found = this.find_cards(card1, card2);
             
@@ -79,24 +89,9 @@ function Solitaire_Data(){
             }
             return false;
         }
-        
-        var card1_loc = cards_found[0];
-        var card2_loc = cards_found[1];
-        
-        if(card1_loc != null && card2_loc != null){
-            console.log("next to last if");
-            this.tableau[card2_loc.outer][card2_loc.inner + 1] = this.tableau[card1_loc.outer][card1_loc.inner];
-            this.tableau[card1_loc.outer][card1_loc.inner] = null;
-            if(card1_loc.inner > 0){
-                console.log("last if");
-                this.tableau[card1_loc.outer][card1_loc.inner - 1].is_face_up = true;
-            }
-            return true;
-        }
-        return false;
     }
     
-    this.build_foundation = function(card, is_from_stock){
+    this.build_foundation = function(card, is_from_stock, is_from_waste = false){
         var card_suit = card.suit;
         if(is_from_stock){
             switch(card_suit){
@@ -126,6 +121,43 @@ function Solitaire_Data(){
                         this.data_f_spades.push(this.stock_pile.pop());
                     }else{
                         this.data_f_spades[0] = this.stock_pile.pop();
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            this.f_was_mod = true;
+            return true;
+        }
+        
+        if(is_from_waste){
+            switch(card_suit){
+                case "HEARTS":
+                    if(this.data_f_hearts[0] != null){
+                        this.data_f_hearts.push(this.discard_pile.pop());
+                    }else{
+                        this.data_f_hearts[0] = this.discard_pile.pop();
+                    }
+                    break;
+                case "CLUBS":
+                    if(this.data_f_clubs[0] != null){
+                        this.data_f_clubs.push(this.discard_pile.pop());
+                    }else{
+                        this.data_f_clubs[0] = this.discard_pile.pop();
+                    }
+                    break;
+                case "DIAMONDS":
+                    if(this.data_f_diamonds[0] != null){
+                        this.data_f_diamonds.push(this.discard_pile.pop());
+                    }else{
+                        this.data_f_diamonds[0] = this.discard_pile.pop();
+                    }
+                    break;
+                case "SPADES":
+                    if(this.data_f_spades[0] != null){
+                        this.data_f_spades.push(this.discard_pile.pop());
+                    }else{
+                        this.data_f_spades[0] = this.discard_pile.pop();
                     }
                     break;
                 default:

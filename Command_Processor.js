@@ -14,53 +14,55 @@ function Command_Processor(textbox, msg_box, controller){
         
         if(command != "INVALID COMMAND"){
             if(command.length > 3){
-                console.log("in 3 more");
                 if(command[3] == "STOCK"){
                     if(controller.do(command, true)){
                         msg_box.textContent = "&nbsp;";
                     }else{
-                        console.log("dummy");
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }else if(command[2] == "COLUMN" && command[4] == "STOCK"){
                      if(controller.do(command, true)){
                          msg_box.textContent = "&nbsp;";
                      }else{
-                         console.log("wummy");
                          msg_box.textContent = "INVALID COMMAND";
                      }
                 }else if(command[2] == "COLUMN"){
                     if(controller.do(command, false)){
                          msg_box.textContent = "&nbsp;";
                      }else{
-                         console.log("wummy");
+                         msg_box.textContent = "INVALID COMMAND";
+                     }
+                }else if(command[3] == "WASTE"){
+                    if(controller.do(command, false, true)){
+                         msg_box.textContent = "&nbsp;";
+                     }else{
                          msg_box.textContent = "INVALID COMMAND";
                      }
                 }
             }else if(command.length == 3){
-                console.log("in 3");
                 if(command[2] == "STOCK"){
-                    console.log("in 3 con");
                     if(controller.do(command, true)){
                         msg_box.textContent = "&nbsp;";
                     }else{
-                        console.log("dummy");
+                        msg_box.textContent = "INVALID COMMAND";
+                    }
+                }else if(command[2] == "WASTE"){
+                    if(controller.do(command, false, true)){
+                        msg_box.textContent = "&nbsp;";
+                    }else{
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }else{
                     if(controller.do(command, false)){
                         msg_box.textContent = "&nbsp;";
                     }else{
-                        console.log("dummy");
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }
             }else{
-                console.log("in else");
                 if(controller.do(command, false)){
                     msg_box.textContent = "&nbsp;";
                 }else{
-                    console.log("dummy");
                     msg_box.textContent = "INVALID COMMAND";
                 }
             }
@@ -86,6 +88,7 @@ function Command_Processor(textbox, msg_box, controller){
         var operand2;
         var card;
         var stock_card;
+        var waste_card;
         var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
         var suits = ["HEARTS", "DIAMONDS", "CLUBS", "SPADES"];
         //var reds = ["HEARTS", "DIAMONDS"];
@@ -107,11 +110,8 @@ function Command_Processor(textbox, msg_box, controller){
                 case "MOVE":
                     if(context == ""){
                         operand1 = new Card_Descriptor(input[1], input[2]);
-                        //console.log(operand1);
                         if(values.includes(operand1.value)){
-                            //console.log("in condition");
                             if(suits.includes(operand1.suit)){
-                                //console.log("in condition");
                                 current_token = input[3];
                                 context = "MOVE";
                             }else{
@@ -125,7 +125,6 @@ function Command_Processor(textbox, msg_box, controller){
                     }
                     break;
                 case "TO":
-                    //console.log(context);
                     if(context == "MOVE"){
                         if(input[4] == "COLUMN"){
                             output = ["MOVE", operand1, input[4], parseInt(input[5])];
@@ -161,19 +160,16 @@ function Command_Processor(textbox, msg_box, controller){
                     break;
                 case "STOCK":
                     if(context == ""){
-                        console.log("blank");
                         if(input.length == 4){
                             context = "STOCK";
                             break;
                         }else if(input.length == 3){
-                            console.log("shoulda and was");
                             context = "BUILD";
                         }else{
                             output = ["STOCK"];
                             done = true;
                         }
                     }else if(context == "STOCK"){
-                        console.log("in ctx stock");
                         stock_card = controller.get_stock_top();
                         operand1 = new Card_Descriptor(stock_card.value, stock_card.suit);
                         if(input[2] == "COLUMN"){
@@ -190,16 +186,10 @@ function Command_Processor(textbox, msg_box, controller){
                             break;
                         }
                         operand2 = new Card_Descriptor(input[2], input[3]);
-                        
-                        //console.log(operand2);
                         if(values.includes(operand2.value)){
-                            //console.log("in condition2");
                             if(suits.includes(operand2.suit)){
-                                //console.log("in condition2");
-                                //output = ["MOVE", operand1.value, operand1.suit, operand1.color, operand2.value, operand2.suit, operand2.color];
                                 output = ["MOVE", operand1, operand2, "STOCK"];
                                 done = true;
-                                //console.log(status);
                             }else{
                                 status = "ERROR";
                             }
@@ -207,17 +197,12 @@ function Command_Processor(textbox, msg_box, controller){
                             status = "ERROR";
                         }
                     }else if(context == "BUILD"){
-                        console.log("in ctx build");
                         stock_card = controller.get_stock_top();
-                        console.log(stock_card.value + " " + stock_card.suit);
                         card = new Card_Descriptor(stock_card.value.toString(), stock_card.suit.toString());
                         if(values.includes(card.value)){
-                                //console.log("in condition2");
                             if(suits.includes(card.suit)){
-                                console.log("in condition2");
                                 output = ["BUILD", card, "STOCK"];
                                 done = true;
-                                //console.log(status);
                             }else{
                                 status = "ERROR";
                             }
@@ -227,14 +212,41 @@ function Command_Processor(textbox, msg_box, controller){
                     }
                     
                     break;
+                case "WASTE":
+                    if(context == ""){
+                        if(input.length == 4){
+                            context = "MOVE";
+                        }else if(input.length == 3){
+                            context = "BUILD";
+                        }
+                        break;
+                    }else if(context == "MOVE"){
+                        waste_card = controller.get_waste_top();
+                        operand1 = new Card_Descriptor(waste_card.value, waste_card.suit);
+                        operand2 = new Card_Descriptor(input[2], input[3]);
+                        if(values.includes(operand2.value)){
+                            if(suits.includes(operand2.suit)){
+                                output = ["MOVE", operand1, operand2, "WASTE"];
+                                done = true;
+                            }else{
+                                status = "ERROR";
+                            }
+                        }else{
+                            status = "ERROR";
+                        }
+                    }else if(context == "BUILD"){
+                        waste_card = controller.get_waste_top();
+                        card = new Card_Descriptor(waste_card.value, waste_card.suit);
+                        output = ["BUILD", card, "WASTE"];
+                        done = true;
+                    }
+                    break;
                 default:
-                    console.log("in default");
                     output = "INVALID COMMAND";
                     done = true;
                     break;
             }
             if(status == "ERROR"){
-                console.log("in status");
                 output = "INVALID COMMAND";
                 done = true;
             }
@@ -246,7 +258,6 @@ function Command_Processor(textbox, msg_box, controller){
         var _reds = ["HEARTS", "DIAMONDS"];
         this.suit = suit;
         this.value = value;
-        console.log(suit);
         if(_reds.includes(this.suit)){
             this.color = "RED";
         }else{

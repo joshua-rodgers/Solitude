@@ -78,7 +78,7 @@ function Game_Master(data, display){
         }
     }
     
-    this.do = function(input, is_from_stock){
+    this.do = function(input, is_from_stock, is_from_waste = false){
         if(input[0] == "MOVE"){
             var _card1 = input[1];
             var column_num = -1;
@@ -143,6 +143,11 @@ function Game_Master(data, display){
                                 display.refresh();
                                 return true;
                             }
+                        }else if(is_from_waste){
+                            if(data.move_card(_card1, _card2, false, -1, true)){
+                                display.refresh();
+                                return true;
+                            }
                         }else{
                             if(data.move_card(_card1, _card2, false)){
                                 display.refresh();
@@ -172,6 +177,20 @@ function Game_Master(data, display){
                             if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
                                 console.log("valid");
                                 data.build_foundation(card, true);
+                                display.refresh();
+                                return true;
+                            }
+                        }else if(is_from_waste){
+                            if(data.data_f_hearts[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
+                                console.log("valid");
+                                data.build_foundation(card, false, true);
                                 display.refresh();
                                 return true;
                             }
@@ -207,6 +226,19 @@ function Game_Master(data, display){
                                 display.refresh();
                                 return true;
                             }
+                        }else if(is_from_waste){
+                            if(data.data_f_clubs[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_clubs[data.data_f_clubs.length - 1].value] == 1){
+                                data.build_foundation(card, false, true);
+                                display.refresh();
+                                return true;
+                            }
                         }else{
                             if(data.data_f_clubs[0] == null){
                                 if(card.value == "A"){
@@ -238,6 +270,19 @@ function Game_Master(data, display){
                                 display.refresh();
                                 return true;
                             }
+                        }else if(is_from_waste){
+                            if(data.data_f_diamonds[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_diamonds[data.data_f_diamonds.length - 1].value] == 1){
+                                data.build_foundation(card, false, true);
+                                display.refresh();
+                                return true;
+                            }
                         }else{
                             if(data.data_f_diamonds[0] == null){
                                 if(card.value == "A"){
@@ -266,6 +311,19 @@ function Game_Master(data, display){
                             }
                             if(_rank[card.value] - _rank[data.data_f_spades[data.data_f_spades.length - 1].value] == 1){
                                 data.build_foundation(card, true);
+                                display.refresh();
+                                return true;
+                            }
+                        }else if(is_from_waste){
+                            if(data.data_f_spades[0] == null){
+                                if(card.value == "A"){
+                                    data.build_foundation(card, false, true);
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                            if(_rank[card.value] - _rank[data.data_f_spades[data.data_f_spades.length - 1].value] == 1){
+                                data.build_foundation(card, false, true);
                                 display.refresh();
                                 return true;
                             }
@@ -311,5 +369,8 @@ function Game_Master(data, display){
     
     this.get_stock_top = function(){
         return data.stock_pile[data.stock_pile.length - 1];
+    }
+    this.get_waste_top = function(){
+        return data.discard_pile[data.discard_pile.length - 1];
     }
 }
