@@ -24,8 +24,33 @@ function Solitaire_Data(){
         
     }
     
-    this.move_card = function(card1, card2, is_from_stock){
-        
+    this.move_card = function(card1, card2, is_from_stock, column_num = -1){
+        if(column_num >= 0){
+            if(is_from_stock){
+                if(this.tableau[column_num][0] == null){
+                    console.log("inmovecardnullcon");
+                    this.tableau[column_num][0] = this.stock_pile.pop();
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            var cards_found = this.find_cards(card1, null);
+            var card1_loc = cards_found[0];
+            
+            if(card1_loc != null){
+                this.tableau[column_num][0] = this.tableau[card1_loc.outer][card1_loc.inner];
+                this.tableau[card1_loc.outer][card1_loc.inner] = null;
+                if(card1_loc.inner > 0){
+                    console.log("last if");
+                    this.tableau[card1_loc.outer][card1_loc.inner - 1].is_face_up = true;
+                }
+                return true;
+            }else{
+                return false;
+            }
+        }
+           
         if(is_from_stock){
             var cards_found = this.find_cards(card2, null);
             var card2_loc = cards_found[0];

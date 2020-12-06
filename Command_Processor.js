@@ -22,6 +22,20 @@ function Command_Processor(textbox, msg_box, controller){
                         console.log("dummy");
                         msg_box.textContent = "INVALID COMMAND";
                     }
+                }else if(command[2] == "COLUMN" && command[4] == "STOCK"){
+                     if(controller.do(command, true)){
+                         msg_box.textContent = "&nbsp;";
+                     }else{
+                         console.log("wummy");
+                         msg_box.textContent = "INVALID COMMAND";
+                     }
+                }else if(command[2] == "COLUMN"){
+                    if(controller.do(command, false)){
+                         msg_box.textContent = "&nbsp;";
+                     }else{
+                         console.log("wummy");
+                         msg_box.textContent = "INVALID COMMAND";
+                     }
                 }
             }else if(command.length == 3){
                 console.log("in 3");
@@ -113,16 +127,17 @@ function Command_Processor(textbox, msg_box, controller){
                 case "TO":
                     //console.log(context);
                     if(context == "MOVE"){
+                        if(input[4] == "COLUMN"){
+                            output = ["MOVE", operand1, input[4], parseInt(input[5])];
+                            done = true;
+                            break;
+                        }
+                        
                         operand2 = new Card_Descriptor(input[4], input[5]);
-                        //console.log(operand2);
                         if(values.includes(operand2.value)){
-                            //console.log("in condition2");
                             if(suits.includes(operand2.suit)){
-                                //console.log("in condition2");
-                                //output = ["MOVE", operand1.value, operand1.suit, operand1.color, operand2.value, operand2.suit, operand2.color];
                                 output = ["MOVE", operand1, operand2];
                                 done = true;
-                                //console.log(status);
                             }else{
                                 status = "ERROR";
                             }
@@ -134,12 +149,9 @@ function Command_Processor(textbox, msg_box, controller){
                 case "BUILD":
                     card = new Card_Descriptor(input[2], input[1]);
                     if(values.includes(card.value)){
-                            //console.log("in condition2");
                         if(suits.includes(card.suit)){
-                            //console.log("in condition2");
                             output = ["BUILD", card];
                             done = true;
-                            //console.log(status);
                         }else{
                             status = "ERROR";
                         }
@@ -162,9 +174,23 @@ function Command_Processor(textbox, msg_box, controller){
                         }
                     }else if(context == "STOCK"){
                         console.log("in ctx stock");
-                        operand2 = new Card_Descriptor(input[2], input[3]);
                         stock_card = controller.get_stock_top();
                         operand1 = new Card_Descriptor(stock_card.value, stock_card.suit);
+                        if(input[2] == "COLUMN"){
+                            if(values.includes(operand1.value)){
+                                if(suits.includes(operand1.suit)){
+                                    output = ["MOVE", operand1, input[2], parseInt(input[3]), "STOCK"];
+                                    done = true;
+                                }else{
+                                    status = "ERROR";
+                                }
+                            }else{
+                                status = "ERROR";
+                            }
+                            break;
+                        }
+                        operand2 = new Card_Descriptor(input[2], input[3]);
+                        
                         //console.log(operand2);
                         if(values.includes(operand2.value)){
                             //console.log("in condition2");

@@ -80,14 +80,25 @@ function Game_Master(data, display){
     
     this.do = function(input, is_from_stock){
         if(input[0] == "MOVE"){
-            console.log("test");
             var _card1 = input[1];
-            var _card2 = input[2];
-            if(_validate(_card1, _card2)){
-                //nothing
+            var column_num = -1;
+            if(input[2] == "COLUMN"){
+                if(_validate(_card1, null)){
+                    //nothing
+                }else{
+                    return false;
+                }
+                column_num += input[3];
             }else{
-                return false;
+                console.log("test");
+                var _card2 = input[2];
+                if(_validate(_card1, _card2)){
+                    //nothing
+                }else{
+                    return false;
+                }
             }
+            
         }else if(input[0] == "BUILD"){
             console.log("test2");
             var card = input[1];
@@ -102,6 +113,27 @@ function Game_Master(data, display){
         
         switch(input[0]){
             case "MOVE":
+                if(column_num >= 0){
+                    if(data.tableau[column_num][0] == null){
+                        if(_card1.value == "K"){
+                            if(is_from_stock){
+                                if(data.move_card(_card1, null, true, column_num)){
+                                    display.refresh();
+                                    return true;
+                                }
+                            }else{
+                                if(data.move_card(_card1, null, false, column_num)){
+                                    display.refresh();
+                                    return true;
+                                }
+                            }
+                        }else{
+                            return false;
+                        }
+                    }else{
+                        return false;
+                    }
+                }
                 if(_card1.color != _card2.color){
                     console.log("early progress...");
                     if(_rank[_card2.value] - _rank[_card1.value] == 1){
