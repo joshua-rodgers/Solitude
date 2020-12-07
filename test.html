@@ -1,11 +1,28 @@
 <html>
 
-    <script>
-        function test(pos1, pos2 = "hey", pos3){
-            console.log(pos1 + " " + pos2 + " " + pos3);
-        }
-        test("umm...", "" , "you!");
-        
+    <body>
+        <script>
+            function My_Class(num){
+                this.member = num;
+            }
+            function test(){
+                var mc_arr = new Array(7);
+                
+                for(var i = 0; i < mc_arr.length; i++){
+                    mc_arr[i] = new My_Class(i);
+                }
+                
+                var el = mc_arr[2];
+                if(mc_arr.indexOf(el) > 0){
+                    console.log("worked!");
+                    console.log(mc_arr.indexOf(el));
+                }
+                
+            }
+            test();
+
+
+        </script>
+    </body>
     
-    </script>
 </html>

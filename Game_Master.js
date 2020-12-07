@@ -40,6 +40,35 @@ function Game_Master(data, display){
         return avail;
     }
     
+    var _get_available_columns = function(){
+        var avail_columns = new Array(7);
+        var counter = 0;
+        for(var i = 0; i < 7; i++){
+            avail_columns[i] = [];
+        }
+        
+        for(var i = 0; i < data.tableau.length; i++){
+            for(var j = 0; j < data.tableau[i].length; j++){
+                if(data.tableau[i][j] != null){
+                    if(data.tableau[i][j].is_face_up){
+                        avail_columns[i].push(data.tableau[i][j]);
+                        counter++;
+                    }
+                }else{
+                    break;
+                }
+                
+            }
+            if(counter > 1){
+                counter = 0;
+            }else{
+                counter = 0;
+                avail_columns[i] = [];
+            }
+        }
+        return avail_columns;
+    }
+    
     var _validate = function(_card1, _card2){
         // NEED TO HANDLE EMPTY COLUMN!!!
         var card1_found= false;
@@ -78,6 +107,32 @@ function Game_Master(data, display){
         }
     }
     
+    var _validate_column = function(column1, column2 = -1){
+        var columns = _get_available_columns();
+        var is_valid1 = false;
+        var is_valid2 = false;
+        
+        if(column2 == -1){
+           is_valid2 = true;
+        }
+        
+        if(column1 > -1 && column1 < 7){
+            if(columns[column1].length > 1){
+                is_valid1 = true;
+            }
+        }
+        if(column2 > -1 && column2 < 7){
+            if(columns[column2].length > 1){
+                is_valid2 = true;
+            }
+        }
+        if(is_valid1 && is_valid2){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     this.do = function(input, is_from_stock, is_from_waste = false){
         if(input[0] == "MOVE"){
             var _card1 = input[1];
@@ -107,6 +162,16 @@ function Game_Master(data, display){
             }else{
                 return false;
             }
+         }else if(input[0] == "SHIFT"){
+             var column_num1 = input[1];
+             var column_num2 = input[2];
+             if(_validate_column(column_num1)){
+                 console.log("at top passed validate")
+                 var available_columns = _get_available_columns();
+             }else{
+                 console.log("at top failed validate")
+                 return false;
+             }
          }
         
         
@@ -364,6 +429,35 @@ function Game_Master(data, display){
                 }else{
                     return false;
                 }
+            case "SHIFT":
+                var source_item = available_columns[column_num1][0];
+                console.log(source_item);
+                var dest_item = data.tableau[column_num2][_get_source(column_num2)];
+                
+                var column1 = available_columns[column_num1];
+                var column2 = data.tableau[column_num2];
+                if(source_item.suit_color != dest_item.suit_color){
+                   if(_rank[dest_item.value] - _rank[source_item.value] == 1){
+                       data.shift_column(column_num1, column_num2, column1, dest_item);
+                       display.refresh();
+                       return true;
+                   }else{
+                       console.log("failed rank");
+                       return false;
+                   }
+                }else{
+                    console.log("failed color")
+                    return false;
+                }
+        }
+    }
+    
+    var _get_source = function(column_num){
+        for(var i = 0; i < data.tableau[column_num].length; i++){
+            if(data.tableau[column_num][i + 1] == null){
+                console.log(data.tableau[column_num][i]);
+                return i;
+            }
         }
     }
     

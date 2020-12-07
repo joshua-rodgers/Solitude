@@ -230,7 +230,31 @@ function Solitaire_Data(){
         return true;
     }
     
-    this.from_stock = function(input){
+    this.shift_column = function(source_col, dest_col, column1, dest_start){
+        var cursor1 = 0;
+        var cursor2 = 0;
+        var source_loc;
+        if(this.tableau[dest_col].indexOf(dest_start) > 0){
+            console.log("found last item");
+            var start = this.tableau[dest_col].indexOf(dest_start);
+            cursor1 = start + 1;
+            while(cursor2 < column1.length){
+                source_loc = this.tableau[source_col].indexOf(column1[cursor2]);
+                this.tableau[dest_col][cursor1] = column1[cursor2];
+                if(this.tableau[source_col][source_loc - 1] != null){
+                    this.tableau[source_col][source_loc - 1].is_face_up = true;
+                }
+                this.tableau[source_col][source_loc] = null;
+                cursor1++;
+                cursor2++;
+            }
+            return true;
+        }else{
+            console.log("didnt find it");
+            return false;
+        }
+
+        
         
     }
     
