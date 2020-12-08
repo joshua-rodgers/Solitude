@@ -30,7 +30,7 @@ function Game_Master(data, display){
                 }
             }
         }
-        if(data.stock_pile[data.stock_pile.length - 1].is_face_up){
+        if(data.stock_pile[data.stock_pile.length - 1] != null && data.stock_pile[data.stock_pile.length - 1].is_face_up){
             avail.push(data.stock_pile[data.stock_pile.length - 1]);
         }
         if(data.discard_pile.length > 0){
@@ -416,7 +416,9 @@ function Game_Master(data, display){
                 if(data.stock_pile[0] != null){
                     if(data.stock_pile[data.stock_pile.length - 1].is_face_up){
                         data.discard_pile.push(data.stock_pile.pop());
-                        data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
+                        if(data.stock_pile.length > 0){
+                            data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
+                        }
                         display.refresh();
                         return true;
                     }else{
@@ -434,8 +436,22 @@ function Game_Master(data, display){
                 console.log(source_item);
                 var dest_item = data.tableau[column_num2][_get_source(column_num2)];
                 
+                
+                
                 var column1 = available_columns[column_num1];
                 var column2 = data.tableau[column_num2];
+                
+                // empty destination column
+                if(dest_item == null){
+                    if(source_item.value == "K"){
+                        data.shift_column(column_num1, column_num2, column1, dest_item);
+                        display.refresh();
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+                
                 if(source_item.suit_color != dest_item.suit_color){
                    if(_rank[dest_item.value] - _rank[source_item.value] == 1){
                        data.shift_column(column_num1, column_num2, column1, dest_item);

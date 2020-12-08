@@ -148,7 +148,6 @@ function Command_Processor(textbox, msg_box, controller){
                             done = true;
                             break;
                         }
-                        
                         operand2 = new Card_Descriptor(input[4], input[5]);
                         if(values.includes(operand2.value)){
                             if(suits.includes(operand2.suit)){
@@ -174,6 +173,8 @@ function Command_Processor(textbox, msg_box, controller){
                         }else{
                             status = "ERROR";
                         }
+                    }else{
+                        status = "ERROR";
                     }
                     break;
                 case "BUILD":
@@ -249,6 +250,8 @@ function Command_Processor(textbox, msg_box, controller){
                             context = "MOVE";
                         }else if(input.length == 3){
                             context = "BUILD";
+                        }else{
+                            status = "ERROR";
                         }
                         break;
                     }else if(context == "MOVE"){
@@ -270,6 +273,8 @@ function Command_Processor(textbox, msg_box, controller){
                         card = new Card_Descriptor(waste_card.value, waste_card.suit);
                         output = ["BUILD", card, "WASTE"];
                         done = true;
+                    }else{
+                        status = "ERROR";
                     }
                     break;
                 default:

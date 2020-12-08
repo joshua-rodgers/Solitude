@@ -234,10 +234,13 @@ function Solitaire_Data(){
         var cursor1 = 0;
         var cursor2 = 0;
         var source_loc;
-        if(this.tableau[dest_col].indexOf(dest_start) > 0){
+        if(this.tableau[dest_col].indexOf(dest_start) >= 0){
             console.log("found last item");
             var start = this.tableau[dest_col].indexOf(dest_start);
-            cursor1 = start + 1;
+            if(dest_start != null){
+                cursor1 = start + 1;
+            }
+            
             while(cursor2 < column1.length){
                 source_loc = this.tableau[source_col].indexOf(column1[cursor2]);
                 this.tableau[dest_col][cursor1] = column1[cursor2];

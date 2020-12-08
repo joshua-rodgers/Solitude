@@ -115,10 +115,15 @@ function Data_Display(_Game) {
         }
         // refreshes stockpile
         console.log("refreshing");
-        if(_Game.stock_pile[_Game.stock_pile.length - 1].is_face_up){
+        if(_Game.stock_pile[_Game.stock_pile.length - 1] != null && _Game.stock_pile[_Game.stock_pile.length - 1].is_face_up){
             pile.innerText = _Game.stock_pile[_Game.stock_pile.length - 1].symbol + " " + _Game.stock_pile[_Game.stock_pile.length - 1].value;
         }else{
-            pile.innerText = "*";
+            if(_Game.stock_pile[_Game.stock_pile.length - 1] == null){
+                pile.innerText = "X";
+            }else{
+                pile.innerText = "*";
+            }
+            
         }
         if(_Game.discard_pile[_Game.discard_pile.length - 1] != null){
             discard_pile.innerText = _Game.discard_pile[_Game.discard_pile.length - 1].symbol + " " + _Game.discard_pile[_Game.discard_pile.length - 1].value;
