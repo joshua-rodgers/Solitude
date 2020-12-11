@@ -16,25 +16,25 @@ function Command_Processor(textbox, msg_box, controller){
             if(command.length > 3){
                 if(command[3] == "STOCK"){
                     if(controller.do(command, true)){
-                        msg_box.textContent = "&nbsp;";
+                        msg_box.textContent = "DONE";
                     }else{
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }else if(command[2] == "COLUMN" && command[4] == "STOCK"){
                      if(controller.do(command, true)){
-                         msg_box.textContent = "&nbsp;";
+                         msg_box.textContent = "DONE";
                      }else{
                          msg_box.textContent = "INVALID COMMAND";
                      }
                 }else if(command[2] == "COLUMN"){
                     if(controller.do(command, false)){
-                         msg_box.textContent = "&nbsp;";
+                         msg_box.textContent = "DONE";
                      }else{
                          msg_box.textContent = "INVALID COMMAND";
                      }
                 }else if(command[3] == "WASTE"){
                     if(controller.do(command, false, true)){
-                         msg_box.textContent = "&nbsp;";
+                         msg_box.textContent = "DONE";
                      }else{
                          msg_box.textContent = "INVALID COMMAND";
                      }
@@ -42,32 +42,32 @@ function Command_Processor(textbox, msg_box, controller){
             }else if(command.length == 3){
                 if(command[2] == "STOCK"){
                     if(controller.do(command, true)){
-                        msg_box.textContent = "&nbsp;";
+                        msg_box.textContent = "DONE";
                     }else{
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }else if(command[2] == "WASTE"){
                     if(controller.do(command, false, true)){
-                        msg_box.textContent = "&nbsp;";
+                        msg_box.textContent = "DONE";
                     }else{
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }else if(command[0] == "SHIFT"){
                     if(controller.do(command, false)){
-                        msg_box.textContent = "&nbsp;";
+                        msg_box.textContent = "DONE";
                     }else{
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }else{
                     if(controller.do(command, false)){
-                        msg_box.textContent = "&nbsp;";
+                        msg_box.textContent = "DONE";
                     }else{
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }
             }else{
                 if(controller.do(command, false)){
-                    msg_box.textContent = "&nbsp;";
+                    msg_box.textContent = "DONE";
                 }else{
                     msg_box.textContent = "INVALID COMMAND";
                 }
