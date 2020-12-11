@@ -1,5 +1,5 @@
 # Solitude
-retro-themed game of solitaire in js. color scheme inspired by the friendly orange glow of the PLATO system.
+retro-themed game of solitaire in js (es5). color scheme inspired by the friendly orange glow of the PLATO system.
 
 ![screenshot of game running](/screenshot.png)
 
@@ -32,7 +32,7 @@ somehow helped me remain consistent in working on the project everyday.
 [link to youtube](https://www.youtube.com/channel/UCv3VcivgQIACRhafV86Usng)
 
 ## to play
-face cards are entered only by first letter: "K, Q, J, A".
+face card values are entered only by first letter: "K, Q, J, A".
 
 to move a card within the tableau:  
 **MOVE VALUE SUIT TO VALUE SUIT**  
