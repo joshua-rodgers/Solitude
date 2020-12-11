@@ -3,8 +3,8 @@ retro-themed game of solitaire in js (es5). color scheme inspired by the friendl
 
 ![screenshot of game running](/screenshot.png)
 
-implementation is very rough, i sketched it out as i went not planning out anything. code is very verbose and repetitive, the data model
-and command processor needs refactoring seriously, but overall it was fun to glue something together very linearly just going with whatever
+implementation is very rough, i sketched it out as i went not planning out anything. code is very verbose and repetitive in places, the data model
+and command processor need refactoring seriously, but overall **it was fun** to glue something together very linearly just going with whatever
 decisions i had already made, not fixing anything, just dealing with the consequences.
 
 the design decision i am proud of is that i mantained a separation of concerns between the modules that compose the inner workings of the game.
