@@ -1,5 +1,5 @@
 # Solitude
-Retro-themed game of Solitaire in JS. color scheme inspired by the friendly orange glow of the PLATO system.
+retro-themed game of solitaire in js. color scheme inspired by the friendly orange glow of the PLATO system.
 
 ![screenshot of game running](/screenshot.png)
 
@@ -26,46 +26,51 @@ the command parser is something i actually intend to rework later, to structure 
 i began in the new network simulator i started and never finished a while back. since i was just pushing through i ended just creating a pile 
 of if statements that makes me cringe.
 
+i recorded the entire process of coding this and posted the videos on my youtube channel to catalog these little projects. recording videos 
+somehow helped me remain consistent in working on the project everyday.
+
+[link to youtube](https://www.youtube.com/channel/UCv3VcivgQIACRhafV86Usng)
+
 ## to play
 face cards are entered only by first letter: "K, Q, J, A".
 
 to move a card within the tableau:  
-**MOVE VALUE SUIT TO VALUE SUIT** 
+**MOVE VALUE SUIT TO VALUE SUIT**  
 example:  
 MOVE 10 CLUBS TO J DIAMONDS 
 
 to move a card to a foundation:  
-**BUILD SUIT VALUE**
+**BUILD SUIT VALUE**    
 example:  
 BUILD SPADES 5  
 
 to turn over a card in the stock pile:  
-**STOCK**
+**STOCK**  
   
 to move a card from the stock pile to the tableau:  
-**STOCK TO VALUE SUIT**
-example:
-STOCK TO 7 HEARTS
+**STOCK TO VALUE SUIT**  
+example:  
+STOCK TO 7 HEARTS  
 
-to move a card from the waste pile to the tableau:
-**WASTE TO VALUE SUIT**
+to move a card from the waste pile to the tableau:  
+**WASTE TO VALUE SUIT**  
 
-to move a card from stock pile to foundation:
-**STOCK TO SUIT**
+to move a card from stock pile to foundation:  
+**STOCK TO SUIT**  
 
-to move a card from waste pile to foundation:
-**WASTE TO SUIT**
+to move a card from waste pile to foundation:  
+**WASTE TO SUIT**  
 
-to move a king to an empty column:
-**MOVE K SUIT TO COLUMN NUMBER**
+to move a king to an empty column:  
+**MOVE K SUIT TO COLUMN NUMBER**  
 
-to move a king in stock pile to empty column:
-**STOCK TO COLUMN NUMBER**
+to move a king in stock pile to empty column:  
+**STOCK TO COLUMN NUMBER**  
 
-to move a column of consecutive cards to another column:
-**MOVE COLUMN NUMBER TO COLUMN NUMBER**
+to move a column of consecutive cards to another column:  
+**MOVE COLUMN NUMBER TO COLUMN NUMBER**  
 
-if command is entered imporperly "INVALID COMMAND" will be output below the input box.
-input is not case sensitive, it is capitalized programitically.
+if command is entered imporperly "INVALID COMMAND" will be output below the input box.  
+input is not case sensitive, it is capitalized programitically.  
 
 
