@@ -1,7 +1,7 @@
 # Solitude
 Retro-themed game of Solitaire in JS. color scheme inspired by the friendly orange glow of the PLATO system.
 
-[screenshot of game running](/screenshot.png)
+![screenshot of game running](/screenshot.png)
 
 implementation is very rough, i sketched it out as i went not planning out anything. code is very verbose and repetitive, the data model
 and command processor needs refactoring seriously, but overall it was fun to glue something together very linearly just going with whatever
@@ -29,41 +29,41 @@ of if statements that makes me cringe.
 ## to play
 face cards are entered only by first letter: "K, Q, J, A".
 
-to move a card within the tableau:
-MOVE VALUE SUIT TO VALUE SUIT
-example:
-MOVE 10 CLUBS TO J DIAMONDS
+to move a card within the tableau:  
+**MOVE VALUE SUIT TO VALUE SUIT** 
+example:  
+MOVE 10 CLUBS TO J DIAMONDS 
 
-to move a card to a foundation:
-BUILD SUIT VALUE
-example:
-BUILD SPADES 5
+to move a card to a foundation:  
+**BUILD SUIT VALUE**
+example:  
+BUILD SPADES 5  
 
-to turn over a card in the stock pile:
-STOCK
-
-to move a card from the stock pile to the tableau:
-STOCK TO VALUE SUIT
+to turn over a card in the stock pile:  
+**STOCK**
+  
+to move a card from the stock pile to the tableau:  
+**STOCK TO VALUE SUIT**
 example:
 STOCK TO 7 HEARTS
 
 to move a card from the waste pile to the tableau:
-WASTE TO VALUE SUIT
+**WASTE TO VALUE SUIT**
 
 to move a card from stock pile to foundation:
-STOCK TO SUIT
+**STOCK TO SUIT**
 
 to move a card from waste pile to foundation:
-WASTE TO SUIT
+**WASTE TO SUIT**
 
 to move a king to an empty column:
-MOVE K SUIT TO COLUMN NUMBER
+**MOVE K SUIT TO COLUMN NUMBER**
 
 to move a king in stock pile to empty column:
-STOCK TO COLUMN NUMBER
+**STOCK TO COLUMN NUMBER**
 
 to move a column of consecutive cards to another column:
-MOVE COLUMN NUMBER TO COLUMN NUMBER
+**MOVE COLUMN NUMBER TO COLUMN NUMBER**
 
 if command is entered imporperly "INVALID COMMAND" will be output below the input box.
 input is not case sensitive, it is capitalized programitically.
