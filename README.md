@@ -1,5 +1,6 @@
 # Solitude
-retro-themed game of solitaire in js (es5). color scheme inspired by the friendly orange glow of the PLATO system.
+retro-themed game of solitaire in js (es5). color scheme inspired by the friendly orange glow of the PLATO system. i always wanted to know how
+to play solitaire, this is how i went about learning.
 
 ![screenshot of game running](/screenshot.png)
 
