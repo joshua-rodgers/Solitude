@@ -15,7 +15,7 @@ function Game_Master(data, display){
                 }
     
     var _get_available = function(){
-        console.log("in avail");
+        
         var avail = [];
         for(var i = 0; i < data.tableau.length; i++){
             for(var j = 0; j < data.tableau[i].length; j++){
@@ -36,7 +36,7 @@ function Game_Master(data, display){
         if(data.discard_pile.length > 0){
             avail.push(data.discard_pile[data.discard_pile.length - 1]);
         }
-        console.log(avail);
+        
         return avail;
     }
     
@@ -77,12 +77,12 @@ function Game_Master(data, display){
         var available = _get_available();
         
         for(var i = 0; i < available.length; i++){
-            console.log("loop");
+            
             if(_card2 != null){
-                console.log("c2");
+                
                 if(_card2.suit == available[i].suit){
                     if(_card2.value == available[i].value){
-                        console.log("found 2");
+                        
                         card2_found = true;
                     }
                 }
@@ -91,9 +91,9 @@ function Game_Master(data, display){
             }
             
             if(_card1.suit == available[i].suit){
-                console.log("con 1");
+                
                 if(_card1.value == available[i].value){
-                    console.log("con 2");
+                    
                     card1_found = true;
                     //break;
                 }
@@ -145,7 +145,7 @@ function Game_Master(data, display){
                 }
                 column_num += input[3];
             }else{
-                console.log("test");
+                
                 var _card2 = input[2];
                 if(_validate(_card1, _card2)){
                     //nothing
@@ -155,7 +155,7 @@ function Game_Master(data, display){
             }
             
         }else if(input[0] == "BUILD"){
-            console.log("test2");
+            
             var card = input[1];
             if(_validate(card, null)){
                 //nothing
@@ -166,10 +166,10 @@ function Game_Master(data, display){
              var column_num1 = input[1];
              var column_num2 = input[2];
              if(_validate_column(column_num1)){
-                 console.log("at top passed validate")
+                 
                  var available_columns = _get_available_columns();
              }else{
-                 console.log("at top failed validate")
+                 
                  return false;
              }
          }
@@ -200,9 +200,9 @@ function Game_Master(data, display){
                     }
                 }
                 if(_card1.color != _card2.color){
-                    console.log("early progress...");
+                    
                     if(_rank[_card2.value] - _rank[_card1.value] == 1){
-                        console.log("progress...");
+                        
                         if(is_from_stock){
                             if(data.move_card(_card1, _card2, true)){
                                 display.refresh();
@@ -240,7 +240,7 @@ function Game_Master(data, display){
                                 }
                             }
                             if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
-                                console.log("valid");
+                                
                                 data.build_foundation(card, true);
                                 display.refresh();
                                 return true;
@@ -254,7 +254,7 @@ function Game_Master(data, display){
                                 }
                             }
                             if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
-                                console.log("valid");
+                                
                                 data.build_foundation(card, false, true);
                                 display.refresh();
                                 return true;
@@ -268,7 +268,7 @@ function Game_Master(data, display){
                                 }
                             }
                             if(_rank[card.value] - _rank[data.data_f_hearts[data.data_f_hearts.length - 1].value] == 1){
-                                console.log("valid");
+                                
                                 data.build_foundation(card, false);
                                 display.refresh();
                                 return true;
@@ -412,17 +412,26 @@ function Game_Master(data, display){
                 }
                 break;
             case "STOCK":
-                console.log("in stock");
+                
                 if(data.stock_pile[0] != null){
                     if(data.stock_pile[data.stock_pile.length - 1].is_face_up){
                         data.discard_pile.push(data.stock_pile.pop());
                         if(data.stock_pile.length > 0){
                             data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
+                        }else{
+                            if(data.discard_pile.length != 0){
+                                
+                                for(var i = 0; i < data.discard_pile.length; i++){
+                                    data.discard_pile[i].is_face_up = false;
+                                }
+                                data.stock_pile = data.discard_pile;
+                                data.discard_pile = [];
+                            }
                         }
                         display.refresh();
                         return true;
                     }else{
-                        console.log("in stock con");
+                        
                         data.stock_pile[data.stock_pile.length - 1].is_face_up = true;
                         display.refresh();
                         return true;
@@ -433,7 +442,7 @@ function Game_Master(data, display){
                 }
             case "SHIFT":
                 var source_item = available_columns[column_num1][0];
-                console.log(source_item);
+                
                 var dest_item = data.tableau[column_num2][_get_source(column_num2)];
                 
                 
@@ -458,11 +467,11 @@ function Game_Master(data, display){
                        display.refresh();
                        return true;
                    }else{
-                       console.log("failed rank");
+                       
                        return false;
                    }
                 }else{
-                    console.log("failed color")
+                    
                     return false;
                 }
         }
@@ -471,7 +480,7 @@ function Game_Master(data, display){
     var _get_source = function(column_num){
         for(var i = 0; i < data.tableau[column_num].length; i++){
             if(data.tableau[column_num][i + 1] == null){
-                console.log(data.tableau[column_num][i]);
+                
                 return i;
             }
         }

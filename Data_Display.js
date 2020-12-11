@@ -66,7 +66,7 @@ function Data_Display(_Game) {
                     display_col.childNodes[j].innerText = "";
                 }
 
-                // test console.log(data_card.value);
+                // test 
                 j++;
             }
             j = 0;
@@ -80,7 +80,7 @@ function Data_Display(_Game) {
                         for(var j = 0; j < _Game.data_f_hearts.length; j++){
                             if(_Game.data_f_hearts[j] != null){
                                 foundations[i].childNodes[j].innerText = _Game.data_f_hearts[j].symbol + " " + _Game.data_f_hearts[j].value;
-                                console.log(foundations[i].childNodes[j]);
+                                
                             } 
                         }
                         break;
@@ -88,7 +88,7 @@ function Data_Display(_Game) {
                         for(var j = 0; j < _Game.data_f_clubs.length; j++){
                             if(_Game.data_f_clubs[j] != null){
                                 foundations[i].childNodes[j].innerText = _Game.data_f_clubs[j].symbol + " " + _Game.data_f_clubs[j].value;
-                                console.log("cloop");
+                                
                             }
                         }
                         break;
@@ -96,7 +96,7 @@ function Data_Display(_Game) {
                        for(var j = 0; j < _Game.data_f_diamonds.length; j++){
                            if(_Game.data_f_diamonds[j] != null){
                                foundations[i].childNodes[j].innerText = _Game.data_f_diamonds[j].symbol + " " + _Game.data_f_diamonds[j].value;
-                            console.log("dloop");
+                            
                            }
 
                         }
@@ -105,7 +105,7 @@ function Data_Display(_Game) {
                        for(var j = 0; j < _Game.data_f_spades.length; j++){
                            if(_Game.data_f_spades[j] != null){
                                foundations[i].childNodes[j].innerText = _Game.data_f_spades[j].symbol + " " + _Game.data_f_spades[j].value;
-                                console.log("sloop");
+                                
                            }
 
                         }
@@ -114,7 +114,7 @@ function Data_Display(_Game) {
             }
         }
         // refreshes stockpile
-        console.log("refreshing");
+        
         if(_Game.stock_pile[_Game.stock_pile.length - 1] != null && _Game.stock_pile[_Game.stock_pile.length - 1].is_face_up){
             pile.innerText = _Game.stock_pile[_Game.stock_pile.length - 1].symbol + " " + _Game.stock_pile[_Game.stock_pile.length - 1].value;
         }else{

@@ -56,7 +56,6 @@ function Command_Processor(textbox, msg_box, controller){
                     if(controller.do(command, false)){
                         msg_box.textContent = "&nbsp;";
                     }else{
-                        console.log("thats it");
                         msg_box.textContent = "INVALID COMMAND";
                     }
                 }else{
@@ -277,14 +276,12 @@ function Command_Processor(textbox, msg_box, controller){
                         status = "ERROR";
                     }
                     break;
-                default:
-                    console.log("hit default in cp switch");
+                default:  
                     output = "INVALID COMMAND";
                     done = true;
                     break;
             }
             if(status == "ERROR"){
-                console.log("status was error");
                 output = "INVALID COMMAND";
                 done = true;
             }
