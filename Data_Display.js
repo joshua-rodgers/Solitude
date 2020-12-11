@@ -117,6 +117,7 @@ function Data_Display(_Game) {
         
         if(_Game.stock_pile[_Game.stock_pile.length - 1] != null && _Game.stock_pile[_Game.stock_pile.length - 1].is_face_up){
             pile.innerText = _Game.stock_pile[_Game.stock_pile.length - 1].symbol + " " + _Game.stock_pile[_Game.stock_pile.length - 1].value;
+            pile.style.color = _Game.stock_pile[_Game.stock_pile.length - 1].suit_color;
         }else{
             if(_Game.stock_pile[_Game.stock_pile.length - 1] == null){
                 pile.innerText = "X";
@@ -127,6 +128,7 @@ function Data_Display(_Game) {
         }
         if(_Game.discard_pile[_Game.discard_pile.length - 1] != null){
             discard_pile.innerText = _Game.discard_pile[_Game.discard_pile.length - 1].symbol + " " + _Game.discard_pile[_Game.discard_pile.length - 1].value;
+            discard_pile.style.color = _Game.discard_pile[_Game.discard_pile.length - 1].suit_color;
         }else{
             discard_pile.innerText = "";
             discard_pile.innerHTML = "&nbsp;";
