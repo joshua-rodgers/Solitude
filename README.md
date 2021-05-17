@@ -30,7 +30,7 @@ of if statements that makes me cringe.
 i recorded the entire process of coding this and posted the videos on my youtube channel to catalog these little projects. recording videos 
 somehow helped me remain consistent in working on the project everyday.
 
-[link to youtube](https://www.youtube.com/channel/UCv3VcivgQIACRhafV86Usng)
+[link to youtube](https://www.youtube.com/channel/UCv3VcivgQIACRhafV86Usng)  
 [link to play](http://www.arkidsinfo.com/solitaire/)
 
 ## to play
