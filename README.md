@@ -31,6 +31,7 @@ i recorded the entire process of coding this and posted the videos on my youtube
 somehow helped me remain consistent in working on the project everyday.
 
 [link to youtube](https://www.youtube.com/channel/UCv3VcivgQIACRhafV86Usng)
+[link to play](http://www.arkidsinfo.com/solitaire/)
 
 ## to play
 face card values are entered only by first letter: "K, Q, J, A".
